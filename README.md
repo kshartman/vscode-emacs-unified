@@ -437,7 +437,7 @@ See https://www.gnu.org/software/emacs/manual/html_node/emacs/Arguments.html for
 | `C-M-Bksp`                           | ✓               | Kill balanced expression backward (backward-kill-sexp)                                     |
 | `C-S-k`                              | ✓               | Kill a line as if with `kill-line`, but respecting delimiters (paredit-kill)               |
 
-Sexp operations are powered by [paredit-ts](https://github.com/nickmeldrum/paredit-ts).
+Sexp operations are powered by [paredit-ts](https://github.com/kshartman/paredit-ts).
 
 ### Looking Up Identifiers
 
