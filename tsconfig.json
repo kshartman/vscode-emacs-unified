@@ -16,10 +16,9 @@
     "skipLibCheck": true,
     /* Additional Checks */
     "noImplicitAny": true,
-    "noUncheckedIndexedAccess": true
-    // "noImplicitReturns": true, /* Report error when not all code paths in function return a value. */
-    // "noFallthroughCasesInSwitch": true, /* Report errors for fallthrough cases in switch statement. */
-    // "noUnusedParameters": true,  /* Report errors on unused parameters. */
+    "noUncheckedIndexedAccess": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true
   },
   "include": ["src", "eslint.config.mjs", "webpack.config.js"],
   "exclude": ["node_modules", ".vscode-test", "keybinding-generator"]

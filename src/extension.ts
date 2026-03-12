@@ -313,7 +313,7 @@ export function activate(context: vscode.ExtensionContext): void {
 
   registerEmulatorCommand("emacs-mcx.executeCommandWithPrefixArgument", (emulator, args) => {
     if (typeof args !== "object" || args == null || Array.isArray(args)) {
-      return;
+      return undefined;
     }
 
     if (
@@ -322,6 +322,7 @@ export function activate(context: vscode.ExtensionContext): void {
     ) {
       return emulator.executeCommandWithPrefixArgument(args["command"], args["args"], args["prefixArgumentKey"]);
     }
+    return undefined;
   });
 
   function parseVSCodeMajorMinorInner(version: string): { major: number; minor: number } {

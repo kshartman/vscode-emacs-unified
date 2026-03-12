@@ -1,90 +1,80 @@
-/**
- * This file is derived from https://github.com/VSCodeVim/Vim/tree/104cf4779a221e951a90ef5daa1e5aa7a161b0f7
- */
-
 import type { IConfiguration } from "../../configuration/iconfiguration";
 import type { ILogger } from "../common/logger";
 
-const logPriorities: string[] = ["error", "warn", "info", "verbose", "debug", "silly"];
+const LOG_PRIORITIES = ["error", "warn", "info", "verbose", "debug"] as const;
+
+function logPriorityIndex(level: string): number {
+  return (LOG_PRIORITIES as readonly string[]).indexOf(level);
+}
 
 /**
- * Displays VSCode message to user
+ * Browser logger implementation using console methods.
+ * Mirrors the node LoggerImpl interface for platform consistency.
  */
-export class VsCodeMessage implements ILogger {
-  actionMessages = ["Dismiss", "Suppress Errors"];
-  private prefix: string;
-  configuration?: IConfiguration;
-  priorityThreshold: number;
+class BrowserLogger implements ILogger {
+  private readonly prefix: string;
+  private configuration: IConfiguration | undefined;
+  private priorityThreshold = -1;
 
   constructor(prefix: string) {
     this.prefix = prefix;
-    this.priorityThreshold = -1;
   }
 
-  error(errorMessage: string): void {
-    this.log({ level: "error", message: errorMessage });
+  public error(errorMessage: string): void {
+    this.log("error", errorMessage);
   }
 
-  debug(debugMessage: string): void {
-    this.log({ level: "debug", message: debugMessage });
+  public debug(debugMessage: string): void {
+    this.log("debug", debugMessage);
   }
 
-  warn(warnMessage: string): void {
-    this.log({ level: "warn", message: warnMessage });
+  public warn(warnMessage: string): void {
+    this.log("warn", warnMessage);
   }
 
-  verbose(verboseMessage: string): void {
-    this.log({ level: "verbose", message: verboseMessage });
-  }
-
-  private isSevere(logLevel: string): boolean {
-    const priority = logPriorities.indexOf(logLevel);
-    if (priority < 0 || this.priorityThreshold < 0) {
-      return true; // Unexpected severity is considered severe tentatively.
-    }
-
-    return priority <= this.priorityThreshold;
-  }
-
-  private log(info: { level: string; message: string }) {
-    if (this.configuration && this.configuration.debug.silent) {
-      return;
-    }
-
-    if (!this.isSevere(info.level)) {
-      return;
-    }
-
-    let showMessage: (message: string, ...items: string[]) => void;
-    switch (info.level) {
-      case "error":
-        showMessage = console.error;
-        break;
-      case "warn":
-        showMessage = console.warn;
-        break;
-      case "info":
-        showMessage = console.log;
-        break;
-      case "verbose":
-      case "debug":
-        showMessage = console.debug;
-        break;
-      default:
-        throw Error(`Unsupported log level ${info.level}`);
-    }
-
-    showMessage(`${this.prefix}: ${info.message}`, ...this.actionMessages);
+  public verbose(verboseMessage: string): void {
+    this.log("verbose", verboseMessage);
   }
 
   public configChanged(configuration: IConfiguration): void {
     this.configuration = configuration;
-    this.priorityThreshold = logPriorities.indexOf(this.configuration?.debug.loggingLevelForConsole);
+    this.priorityThreshold = logPriorityIndex(configuration.debug.loggingLevelForConsole);
+  }
+
+  private log(level: string, message: string): void {
+    if (this.configuration?.debug.silent) {
+      return;
+    }
+
+    const priority = logPriorityIndex(level);
+    if (this.priorityThreshold >= 0 && priority >= 0 && priority > this.priorityThreshold) {
+      return;
+    }
+
+    const formatted = `${this.prefix}: ${message}`;
+    switch (level) {
+      case "error":
+        console.error(formatted);
+        break;
+      case "warn":
+        console.warn(formatted);
+        break;
+      case "info":
+        console.log(formatted);
+        break;
+      case "verbose":
+      case "debug":
+        console.debug(formatted);
+        break;
+      default:
+        console.log(formatted);
+        break;
+    }
   }
 }
 
 export class LoggerImpl {
   static get(prefix: string): ILogger {
-    return new VsCodeMessage(prefix);
+    return new BrowserLogger(prefix);
   }
 }
