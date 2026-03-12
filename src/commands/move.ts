@@ -14,7 +14,6 @@ import { findNextWordEnd, findPreviousWordStart } from "./helpers/wordOperations
 import { getWordSeparators, shouldRespectSubwordMode } from "./helpers/wordSeparators";
 import { makeSelectionsEmpty } from "./helpers/selection";
 
-// TODO: be unnecessary
 export const moveCommandIds = [
   "forwardChar",
   "backwardChar",

@@ -355,7 +355,7 @@ suite("paredit.paredit-kill kill to end-of-line", () => {
 
     await clearTextEditor(activeTextEditor);
 
-    // TODO
+    // ISSUE-1: paredit kill does not integrate with kill ring
     // await emulator.runCommand("yank");
     // assertTextEqual(activeTextEditor, initialText);
   });
@@ -387,7 +387,7 @@ suite("paredit.paredit-kill kill inside sexp", () => {
 
     await clearTextEditor(activeTextEditor);
 
-    // TODO
+    // ISSUE-1: paredit kill does not integrate with kill ring
     // await emulator.runCommand("yank");
     // assertTextEqual(activeTextEditor, initialText);
   });
@@ -419,7 +419,7 @@ suite("paredit.paredit-kill kill entire line", () => {
 
     await clearTextEditor(activeTextEditor);
 
-    // TODO
+    // ISSUE-1: paredit kill does not integrate with kill ring
     // await emulator.runCommand("yank");
     // assertTextEqual(activeTextEditor, initialText);
   });
@@ -456,7 +456,7 @@ suite("paredit.paredit-kill kill inside string", () => {
 
     await clearTextEditor(activeTextEditor);
 
-    // TODO
+    // ISSUE-1: paredit kill does not integrate with kill ring
     // await emulator.runCommand("yank");
     // assertTextEqual(activeTextEditor, initialText);
   });

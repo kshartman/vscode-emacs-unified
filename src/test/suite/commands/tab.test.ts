@@ -293,4 +293,85 @@ print("hello")`,
       assertCursorsEqual(activeTextEditor, [1, 8]);
     });
   });
+
+  suite("nested blocks - no over-indent after non-block-opener", () => {
+    const initialText = `def f():
+    if True:
+        pass
+x`;
+
+    setup(async () => {
+      activeTextEditor = await setupWorkspace(initialText, { language });
+      activeTextEditor.options.tabSize = tabSize;
+      emulator = createEmulator(activeTextEditor);
+    });
+
+    teardown(cleanUpWorkspace);
+
+    test("after 'pass' (no colon), max indent matches pass's level, not one deeper", async () => {
+      // Previous non-empty line is "        pass" (indent=8, no colon).
+      // Max indent should be level 2 (8 chars), not level 3 (12 chars).
+      setEmptyCursors(activeTextEditor, [3, 0]);
+
+      // First press: indent to max (level 2 = 8 chars)
+      await emulator.runCommand("tabToTabStop");
+      assertTextEqual(
+        activeTextEditor,
+        `def f():
+    if True:
+        pass
+        x`,
+      );
+      assertCursorsEqual(activeTextEditor, [3, 8]);
+
+      // Second press: level 1 = 4 chars
+      await emulator.runCommand("tabToTabStop");
+      assertTextEqual(
+        activeTextEditor,
+        `def f():
+    if True:
+        pass
+    x`,
+      );
+      assertCursorsEqual(activeTextEditor, [3, 4]);
+
+      // Third press: level 0 = 0 chars
+      await emulator.runCommand("tabToTabStop");
+      assertTextEqual(
+        activeTextEditor,
+        `def f():
+    if True:
+        pass
+x`,
+      );
+      assertCursorsEqual(activeTextEditor, [3, 0]);
+
+      // Fourth press: cycle back to max (level 2 = 8 chars)
+      await emulator.runCommand("tabToTabStop");
+      assertTextEqual(
+        activeTextEditor,
+        `def f():
+    if True:
+        pass
+        x`,
+      );
+      assertCursorsEqual(activeTextEditor, [3, 8]);
+    });
+
+    test("after block opener (colon), max indent is one deeper", async () => {
+      // Previous non-empty line is "    if True:" (indent=4, has colon).
+      // Max indent should be level 2 (8 chars).
+      setEmptyCursors(activeTextEditor, [2, 0]);
+
+      await emulator.runCommand("tabToTabStop");
+      assertTextEqual(
+        activeTextEditor,
+        `def f():
+    if True:
+        pass
+x`,
+      );
+      assertCursorsEqual(activeTextEditor, [2, 8]);
+    });
+  });
 });

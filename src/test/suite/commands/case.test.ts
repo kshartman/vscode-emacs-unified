@@ -34,7 +34,7 @@ suite("transformToUppercase", () => {
         { cursorAt: new Position(2, 3), text: "AAA\nBBB\nCCC" },
       ],
     },
-    // TODO: Currently, this test case fails.
+    // ISSUE-3: case conversion fails with trailing whitespace
     // {
     //     initialText: "aaa \nbbb \nccc",
     //     expectedResults: [
@@ -97,7 +97,7 @@ suite("transformToLowercase", () => {
         { cursorAt: new Position(2, 3), text: "aaa\nbbb\nccc" },
       ],
     },
-    // TODO: Currently, this test case fails.
+    // ISSUE-3: case conversion fails with trailing whitespace
     // {
     //     initialText: "AAA \nBBB \nCCC",
     //     expectedResults: [

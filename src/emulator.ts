@@ -29,7 +29,7 @@ import { MarkRing } from "./mark-ring";
 import { convertSelectionToRectSelections } from "./rectangle";
 import type { Minibuffer } from "./minibuffer";
 import { PromiseDelegate } from "./promise-delegate";
-import { delay, type Unreliable } from "./utils";
+import { delay, getDocumentId, type Unreliable } from "./utils";
 
 const logger = Logger.get("EmacsEmulator");
 
@@ -315,8 +315,7 @@ export class EmacsEmulator implements IEmacsController, vscode.Disposable {
   }
 
   public onDidChangeTextDocument = (e: vscode.TextDocumentChangeEvent): void => {
-    // XXX: Is this a correct way to check the identity of document?
-    if (e.document.uri.toString() === this.textEditor.document.uri.toString()) {
+    if (getDocumentId(e.document) === getDocumentId(this.textEditor.document)) {
       if (
         e.contentChanges.some((contentChange) =>
           this.textEditor.selections.some((selection) => contentChange.range.intersection(selection) != null),

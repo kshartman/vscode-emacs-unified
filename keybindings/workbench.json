@@ -51,6 +51,18 @@
     "when": "!terminalFocus"
   },
   {
+    // `list-buffers` in Emacs. Shows all open editors sorted by recent use.
+    "key": "ctrl+x ctrl+b",
+    "command": "workbench.action.showAllEditorsByMostRecentlyUsed",
+    "when": "!terminalFocus"
+  },
+  {
+    // `list-directory` / dired in Emacs. Opens the dired file browser.
+    "key": "ctrl+x ctrl+d",
+    "command": "extension.dired.open",
+    "when": "!terminalFocus"
+  },
+  {
     "key": "ctrl+x k",
     "command": "workbench.action.closeActiveEditor",
     "when": "!terminalFocus"

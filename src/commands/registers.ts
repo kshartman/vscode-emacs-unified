@@ -215,7 +215,7 @@ export class RegisterNameCommand extends EmacsCommand {
     }
 
     const texts = selections.map((selection) => textEditor.document.getText(selection));
-    const text = texts.join(""); // TODO: Deal with the multi-cursor case like the kill-yank commands.
+    const text = texts.join(""); // ISSUE-2: multi-cursor selections are joined into one string
 
     if (deleteRegion) {
       await deleteRanges(textEditor, selections);
@@ -300,7 +300,7 @@ export class RegisterNameCommand extends EmacsCommand {
       return;
     }
 
-    const selections = data.positions.map((position) => new vscode.Selection(position, position)); // XXX: This behavior is a bit different from the original Emacs when the buffer is in mark mode.
+    const selections = data.positions.map((position) => new vscode.Selection(position, position)); // Note: differs from Emacs when buffer is in mark mode
 
     await vscode.window.showTextDocument(document, { selection: selections[0] });
     if (vscode.window.activeTextEditor) {

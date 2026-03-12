@@ -2,7 +2,7 @@ import type { Minibuffer } from "../minibuffer";
 import * as vscode from "vscode";
 import { Position, Range, TextEditor } from "vscode";
 import { MessageManager } from "../message";
-import { equalPositions } from "../utils";
+import { equalPositions, getDocumentId } from "../utils";
 import type { IEmacsController } from "../emulator";
 import type { KillRing } from "./kill-ring";
 import type { KillRingEntity } from "./kill-ring-entity";
@@ -61,8 +61,7 @@ export class KillYanker implements vscode.Disposable {
   }
 
   public onDidChangeTextDocument = (e: vscode.TextDocumentChangeEvent): void => {
-    // XXX: Is this a correct way to check the identity of document?
-    if (e.document.uri.toString() === this.textEditor.document.uri.toString()) {
+    if (getDocumentId(e.document) === getDocumentId(this.textEditor.document)) {
       this.isAppending = false;
       this.continuousYankInterrupted = true;
     }

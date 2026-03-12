@@ -367,7 +367,7 @@ KLMNOPQRST`;
 
   teardown(cleanUpWorkspace);
 
-  // XXX: The behavior is different from the original Emacs when the selections are empty.
+  // ISSUE-4: rectangle behavior differs from Emacs on empty selections
   test("nothing happens when the selection is empty", async () => {
     setEmptyCursors(activeTextEditor, [1, 5]);
     await emulator.runCommand("stringRectangle");
@@ -375,7 +375,7 @@ KLMNOPQRST`;
     assertCursorsEqual(activeTextEditor, [1, 5]);
   });
 
-  // XXX: The behavior is different from the original Emacs when the selections are empty.
+  // ISSUE-4: rectangle behavior differs from Emacs on empty selections
   test("nothing happens when the selections are empty", async () => {
     setEmptyCursors(activeTextEditor, [1, 5], [2, 7]);
     await emulator.runCommand("stringRectangle");

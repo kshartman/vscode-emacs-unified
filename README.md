@@ -1,38 +1,35 @@
-# Awesome Emacs Keymap (emacs-mcx)
+# Emacs Unified
 
-[![Test and Build](https://github.com/whitphx/vscode-emacs-mcx/actions/workflows/test-build.yml/badge.svg)](https://github.com/whitphx/vscode-emacs-mcx/actions/workflows/test-build.yml)
-[![Post-build](https://github.com/whitphx/vscode-emacs-mcx/actions/workflows/post-build.yml/badge.svg)](https://github.com/whitphx/vscode-emacs-mcx/actions/workflows/post-build.yml)
+**Comprehensive Emacs emulation for Visual Studio Code**
 
-[![Visual Studio Marketplace Version](https://img.shields.io/visual-studio-marketplace/v/tuttieee.emacs-mcx?label=Visual%20Studio%20Marketplace)](https://marketplace.visualstudio.com/items?itemName=tuttieee.emacs-mcx)
-[![Visual Studio Marketplace Installs - Azure DevOps Extension](https://img.shields.io/visual-studio-marketplace/azure-devops/installs/total/tuttieee.emacs-mcx)](https://marketplace.visualstudio.com/items?itemName=tuttieee.emacs-mcx)
-[![Visual Studio Marketplace Rating](https://img.shields.io/visual-studio-marketplace/r/tuttieee.emacs-mcx)](https://marketplace.visualstudio.com/items?itemName=tuttieee.emacs-mcx&ssr=false#review-details)
+A single extension that consolidates the best Emacs emulation for VS Code into one package — no need to install multiple extensions that overlap, conflict, or accumulate supply-chain risk.
 
-[![Open VSX Version](https://img.shields.io/open-vsx/v/tuttieee/emacs-mcx)](https://open-vsx.org/extension/tuttieee/emacs-mcx)
-[![Open VSX Downloads](https://img.shields.io/open-vsx/dt/tuttieee/emacs-mcx)](https://open-vsx.org/extension/tuttieee/emacs-mcx)
-[![Open VSX Rating](https://img.shields.io/open-vsx/rating/tuttieee/emacs-mcx)](https://open-vsx.org/extension/tuttieee/emacs-mcx/reviews)
-
-<a href="https://flatt.tech/oss/gmo/trampoline" target="_blank"><img src="https://flatt.tech/assets/images/badges/gmo-oss.png" height="20px"/></a>
-
-<a href="https://www.buymeacoffee.com/whitphx" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" width="180" height="50" ></a>
-<a href="https://ko-fi.com/D1D2ERWFG" target="_blank"><img src="https://storage.ko-fi.com/cdn/brandasset/kofi_button_red.png" alt="Support me on Ko-fi" width="180" ></a>
-[![GitHub Sponsors](https://img.shields.io/github/sponsors/whitphx?label=Sponsor%20me%20on%20GitHub%20Sponsors&style=social)](https://github.com/sponsors/whitphx)
-
-**Emacs emulation for Visual Studio Code**
+## Features
 
 - Emacs-like cursor movements and editing commands
 - Customizable meta key assignment (`alt`, `ESC`, `ctrl+[`, or `command` on macOS)
 - Shift-selection with movement commands
 - Search behavior like Emacs' isearch
-- Compatibility with VSCode's built-in multi cursor feature
+- Multi-cursor support throughout
 - Kill-ring integrated with the system clipboard
 - Mark-ring
-- Prefix argument
-- Rectangle commands
-- Text/position/rectangle registers
-- Sexp operations (with ParEdit commands)
+- Prefix argument (`C-u`)
+- Rectangle commands and registers
+- Sexp operations with ParEdit commands
+- **Dired file browser** — browse and manage files without leaving VS Code
+- Smart tab indentation — reindent for brace languages, indent cycling for Python/YAML
 - Available both in Desktop and [Web](https://code.visualstudio.com/api/extension-guides/web-extensions)
 
-It's inspired by [Emacs Keymap by hiro-sun](https://github.com/hiro-sun/vscode-emacs) and its forks such as [Emacs Friendly Keymap by Sebastian Zaha](https://github.com/SebastianZaha/vscode-emacs-friendly), [Emacs Keymap Improved by rkwan94](https://github.com/rkwan94/vscode-emacs), and [Emacs Friendly Keybindings (Neon) by NotKyon](https://github.com/NotKyon/vscode-emacs-neon), but totally revamped and improved for better feature coverage, Emacs emulation, and usability (also getting rid of some bugs).
+## Attribution
+
+This extension is built on the work of several authors:
+
+- **[vscode-emacs-mcx](https://github.com/whitphx/vscode-emacs-mcx)** by Yuichiro Tsuchiya (whitphx) — the foundation providing 63+ commands, 1200+ keybindings, and the core architecture
+- **[vscode-dired](https://github.com/shirou/vscode-dired)** by WAKAYAMA Shirou — the dired file browser
+- **[vscode-emacs-friendly](https://github.com/SebastianZaha/vscode-emacs-friendly)** by Sebastian Zaha — keybinding design inspiration
+- **[Emacs Keymap](https://github.com/hiro-sun/vscode-emacs)** by hiro-sun — the original VS Code Emacs extension
+
+See [LICENSE](./LICENSE) for full license details.
 
 ## FAQ/Tips
 
@@ -40,19 +37,13 @@ It's inspired by [Emacs Keymap by hiro-sun](https://github.com/hiro-sun/vscode-e
 
 It's an intended design that simulates the original Emacs' behavior.
 You can disable it with `emacs-mcx.cursorMoveOnFindWidget` option described below.
-See https://github.com/whitphx/vscode-emacs-mcx/issues/137 for the details about this topic.
 
 ### i-search (`C-s`) is initialized with the currently selected string and the previous search is removed.
 
 Setting `editor.find.seedSearchStringFromSelection` as `"never"` can change this behavior.
 It makes the find widget work similarly to Emacs.
 
-Refs:
-
-- [The official doc about `editor.find.seedSearchStringFromSelection` setting](basics#_seed-search-string-from-selection)
-- [The GitHub issue where we discuss about it](https://github.com/whitphx/vscode-emacs-mcx/issues/107)
-
-### I want to customize the META key (`ESC`, `ctrl+[`, `alt`, or Command (⌘) key on macOS).
+### I want to customize the META key (`ESC`, `ctrl+[`, `alt`, or Command key on macOS).
 
 You can configure the key to be used as a META prefix with the following settings.
 
@@ -65,57 +56,42 @@ Read [the extension settings section](#extension-settings) below for more detail
 
 ### I want to use keyboard macro
 
-Check out [Keyboard Macro Beta](https://marketplace.visualstudio.com/items?itemName=tshino.kb-macro) by [tshino](https://github.com/tshino) (`tshino.kb-macro`) and [its keybindings](https://github.com/tshino/vscode-kb-macro/blob/main/keymap-wrapper/tuttieee.emacs-mcx.json).
+Check out [Keyboard Macro Beta](https://marketplace.visualstudio.com/items?itemName=tshino.kb-macro) by [tshino](https://github.com/tshino).
 
-### The extension has been broken!
+## Extension Settings
 
-Try the `Developer: Reinstall Extension...` command from the command palette to reinstall the extension. I fixed [a problem](https://github.com/whitphx/vscode-emacs-mcx/issues/1654) by this way somehow.
-
-### I find a bug. I want a feature X to be implemented. I have a question.
-
-Post a bug report or a feature request to [GitHub Issues](https://github.com/whitphx/vscode-emacs-mcx/issues).
-
-## Extension settings
-
-This extension has some custom settings named with a prefix `emacs-mcx`.
-You can configure those settings.
-(See [this page](https://code.visualstudio.com/docs/getstarted/settings#_settings-editor) to know how to change the settings.)
-
-Configurable options of this extension are the followings.
+This extension has custom settings with the prefix `emacs-mcx`.
+(See [this page](https://code.visualstudio.com/docs/getstarted/settings#_settings-editor) to know how to change settings.)
 
 ### `emacs-mcx.moveBeginningOfLineBehavior`
 
 Determines the behavior of the `move-beginning-of-line` command.
-If set as `'vscode'`, it works as VSCode's native `Home` key behavior.
+If set as `'vscode'`, it works as VS Code's native `Home` key behavior.
 If set as `'emacs'`, it works as the original Emacs' `move-beginning-of-line`.
 
 ### `emacs-mcx.moveEndOfLineBehavior`
 
 Determines the behavior of the `move-end-of-line` command.
-If set as `'vscode'`, it works as VSCode's native `End` key behavior.
+If set as `'vscode'`, it works as VS Code's native `End` key behavior.
 If set as `'emacs'`, it works as the original Emacs' `move-end-of-line`.
 
 ### `emacs-mcx.scrollUpCommandBehavior`
 
 Determines the behavior of the `scroll-up-command` command.
-If set as `'vscode'`, it works as VSCode's native `Page Down` key behavior.
+If set as `'vscode'`, it works as VS Code's native `Page Down` key behavior.
 If set as `'emacs'`, it works as the original Emacs' `scroll-up-command`.
 
 ### `emacs-mcx.scrollDownCommandBehavior`
 
 Determines the behavior of the `scroll-down-command` command.
-If set as `'vscode'`, it works as VSCode's native `Page Up` key behavior.
+If set as `'vscode'`, it works as VS Code's native `Page Up` key behavior.
 If set as `'emacs'`, it works as the original Emacs' `scroll-down-command`.
 
 ### `emacs-mcx.wordNavigationStyle`
 
 Determines the behavior of word navigation and word killing commands such as `forward-word`, `backward-word`, `kill-word`, and `backward-kill-word`.
-If set as `'vscode'` (default), they work as VSCode's native word navigation.
+If set as `'vscode'` (default), they work as VS Code's native word navigation.
 If set as `'emacs'`, they follow Emacs-like word boundary detection.
-
-### ~~`emacs-mcx.strictEmacsMove`~~ (deprecated)
-
-~~If set as `true`, all `emacs-mcx.moveBeginningOfLineBehavior`, `emacs-mcx.moveEndOfLineBehavior`, `emacs-mcx.scrollUpCommandBehavior`, and `emacs-mcx.scrollDownCommandBehavior` are set to `'emacs'`.~~
 
 ### `emacs-mcx.keepCursorInVisibleRange`
 
@@ -125,14 +101,21 @@ If set as true, the cursor is kept in the visible range when scrolling up or dow
 
 If set as true, `tab` key works as the Emacs' `tab-to-tab-stop` command.
 
+For brace-delimited languages (C, JS, TS, etc.), tab delegates to VS Code's built-in reindent.
+For offside-rule languages (Python, YAML, CoffeeScript, Haskell, Nim), tab cycles through valid indent levels — including one level deeper when the previous line opens a block.
+
+### `emacs-mcx.tab.offsideRuleLanguages`
+
+An array of language IDs that use indent-based scoping. Default: `["python", "yaml", "coffeescript", "haskell", "nim"]`. Only applies when `emacs-mcx.emacsLikeTab` is enabled.
+
 ### `emacs-mcx.useMetaPrefixEscape`
 
 If set as true, Escape key works as the Meta prefix like original Emacs.
-If set as false, Escape key works as cancel, the VSCode's native behavior.
+If set as false, Escape key works as cancel, the VS Code's native behavior.
 For example, if set as true, `M-f` (forward-word) can be issued by both `alt+f` and `escape f`.
 
 The only exception is the commands which begin with `M-g` (`M-g g`, `M-g n`, `M-g p`).
-It is because VSCode can handle only up to two key strokes as the key bindings.
+It is because VS Code can handle only up to two key strokes as the key bindings.
 So, as the special case, `Escape g` works as follows.
 
 | Command    | Desc                           |
@@ -145,11 +128,11 @@ If set as true, `ctrl+[` works as the Meta prefix like original Emacs.
 
 ### `emacs-mcx.useMetaPrefixAlt`
 
-If set as true, `alt` key (`option` (⌥) key on macOS) works as the Meta prefix.
+If set as true, `alt` key (`option` key on macOS) works as the Meta prefix.
 
 ### `emacs-mcx.useMetaPrefixMacCmd`
 
-If set as true, Command (⌘) key works as the Meta prefix on macOS.
+If set as true, Command key works as the Meta prefix on macOS.
 This option only works on macOS.
 
 ### `emacs-mcx.killRingMax`
@@ -169,7 +152,7 @@ If set to true, cursor move commands of this extension such as `C-f` and `C-b` a
 ### `emacs-mcx.enableOverridingTypeCommand`
 
 Prefix arguments do not work on character inputs with IMEs by default and you can set this config to `true` in order to enable it.
-Note that this config makes use of VSCode API's `type` command under the hood and can cause problems in some cases.
+Note that this config makes use of VS Code API's `type` command under the hood and can cause problems in some cases.
 
 - If you are using IME, text input may sometimes fail.
 - If another extension that also uses the `type` command is installed, an error occurs (See https://github.com/Microsoft/vscode/issues/13441).
@@ -177,7 +160,7 @@ Note that this config makes use of VSCode API's `type` command under the hood an
 ### `emacs-mcx.enableDigitArgument`
 
 Indicates whether `M-<digit>` (the `emacs-mcx.digitArgument` command) is enabled.
-Set `false` when `M-<digit>` conflicts with some other necessary commands. See https://github.com/whitphx/vscode-emacs-mcx/issues/1208 for the background.
+Set `false` when `M-<digit>` conflicts with some other necessary commands.
 
 ### `emacs-mcx.shiftSelectMode`
 
@@ -185,7 +168,7 @@ Toggle Shift Selection (Emacs `shift-select-mode`). When `true`, holding Shift w
 
 ### `emacs-mcx.lineMoveVisual`
 
-When true, line-move moves point by visual lines (same as an Emacs variable line-move-visual).
+When true, line-move moves point by visual lines (same as Emacs variable `line-move-visual`).
 
 ### `emacs-mcx.paredit.parentheses`
 
@@ -199,7 +182,7 @@ Key-value pairs of parentheses to be used in the ParEdit commands like the follo
 }
 ```
 
-The parentheses pairs are inherited from a default configuration and merged in order: Default → User-defined global config → User-defined per-language. Each finer-grained config can override individual pair definitions from its parent.
+The parentheses pairs are inherited from a default configuration and merged in order: Default > User-defined global config > User-defined per-language. Each finer-grained config can override individual pair definitions from its parent.
 You can also override the default pairs or disable them by setting `null` as the value. For example:
 
 ```json
@@ -207,12 +190,6 @@ You can also override the default pairs or disable them by setting `null` as the
   "<": ">",  // New pair
   "{": null,  // Override to disable
 }
-// This will result in the following configuration for files of the language:
-// {
-//   "[": "]",
-//   "(": ")",
-//   "<": ">"
-// }
 ```
 
 ### `emacs-mcx.subwordMode`
@@ -231,40 +208,42 @@ It can also be set as per-language flag, for example:
 
 Configurations for debugging.
 
-## 'when' clause context
+### Dired Settings
+
+| Setting               | Type    | Default | Description                                    |
+| --------------------- | ------- | ------- | ---------------------------------------------- |
+| `dired.fixed_window`  | boolean | `false` | Reuse the same editor tab for dired navigation |
+| `dired.ask_directory` | boolean | `true`  | Prompt for directory when opening dired        |
+
+## 'when' Clause Context
 
 This extension provides some contexts that you can refer to in `"when"` clauses of your `keybindings.json`.
 
 ### `emacs-mcx.inMarkMode`
 
-_boolean_
-
-This indicates whether mark-mode is enabled.
+_boolean_ — Indicates whether mark-mode is enabled.
 
 ### `emacs-mcx.acceptingArgument`
 
-_boolean_
-
-This indicates the editor is accepting argument input following `C-u`.
+_boolean_ — Indicates the editor is accepting argument input following `C-u`.
 
 ### `emacs-mcx.prefixArgumentExists` (experimental)
 
-_boolean_
-
-This indicates if a prefix argument exists.
-Use this boolean context to check the existence of a prefix argument, instead of using `emacs-mcx.prefixArgument` with null check.
+_boolean_ — Indicates if a prefix argument exists.
 
 ### `emacs-mcx.prefixArgument` (experimental)
 
-_number | undefined_
+_number | undefined_ — The currently input prefix argument.
 
-This is a currently input prefix argument.
+### `dired.open`
+
+_boolean_ — Indicates whether a dired buffer is active. Use this to scope keybindings to dired buffers.
 
 ## Keybindings
 
-Alt key is mapped to the Meta prefix (`M`) by default and you can configure for Escape, `ctrl+[`, or Command (⌘) key (macOS only) to work as it with the settings above.
+Alt key is mapped to the Meta prefix (`M`) by default and you can configure for Escape, `ctrl+[`, or Command key (macOS only) to work as it with the settings above.
 
-### Move commands
+### Move Commands
 
 | Command                                      | Prefix argument | Desc                                                                                                   |
 | -------------------------------------------- | --------------- | ------------------------------------------------------------------------------------------------------ |
@@ -286,7 +265,7 @@ Alt key is mapped to the Meta prefix (`M`) by default and you can configure for 
 | `M-S-,` (`M-<` with US keyboard)             |                 | Move to the top of the buffer (beginning-of-buffer)                                                    |
 | `M-S-.` (`M->` with US keyboard)             |                 | Move to the end of the buffer (end-of-buffer)                                                          |
 | `M-g g` (`M-g M-g`)                          | ✓               | Read a number n and move point to the beginning of line number n (goto-line)                           |
-| `M-g n` (`M-g M-n`, ``C-x ` ``)              |                 | Jump to next error                                                                                     |
+| `M-g n` (`M-g M-n`, `` C-x ` ``)             |                 | Jump to next error                                                                                     |
 | `M-g p` (`M-g M-p`)                          |                 | Jump to previous error                                                                                 |
 | `C-l`                                        |                 | Center screen on current line (recenter-top-bottom)                                                    |
 
@@ -305,40 +284,40 @@ Alt key is mapped to the Meta prefix (`M`) by default and you can configure for 
 | `M-s o`                              | Open [Quick Search](https://code.visualstudio.com/updates/v1_89#_quick-search), which is like Emacs' `occur` command. |
 | `M-c`                                | Toggles the case sensitivity of the find widget.                                                                      |
 
-### Edit commands
+### Edit Commands
 
-| Command                                          | Prefix argument | Desc                                                                                                                                                                                                                                                                                                                                                                                                                             |
-| ------------------------------------------------ | --------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `C-d`                                            | ✓               | Delete right (DEL)                                                                                                                                                                                                                                                                                                                                                                                                               |
-| `C-h`                                            | ✓               | Delete left (BACKSPACE)                                                                                                                                                                                                                                                                                                                                                                                                          |
-| `M-\`                                            | ✓               | Delete spaces and tabs around point (delete-horizontal-space).                                                                                                                                                                                                                                                                                                                                                                   |
-| `C-x C-o`                                        |                 | Delete blank lines around (delete-blank-lines)                                                                                                                                                                                                                                                                                                                                                                                   |
-| `C-t`                                            | ✓               | Transpose characters (transpose-chars).                                                                                                                                                                                                                                                                                                                                                                                          |
-| `C-x C-t`                                        | ✓               | Transpose lines (transpose-lines).                                                                                                                                                                                                                                                                                                                                                                                               |
-| `M-S-6` (`M-^` with US keyboard)                 |                 | join two lines cleanly (delete-indentation)                                                                                                                                                                                                                                                                                                                                                                                      |
-| `M-d`                                            | ✓               | Kill the next word (kill-word).                                                                                                                                                                                                                                                                                                                                                                                                  |
-| `M-Bksp`                                         | ✓               | Kill one word backwards (backward-kill-word).                                                                                                                                                                                                                                                                                                                                                                                    |
-| `M-z`                                            | ✓               | Kill up to and including the given character (zap-to-char).                                                                                                                                                                                                                                                                                                                                                                      |
-| `C-k`                                            | ✓               | Kill rest of line or one or more lines (kill-line).                                                                                                                                                                                                                                                                                                                                                                              |
-| `C-S-Bksp`                                       |                 | Kill an entire line at once (kill-whole-line).                                                                                                                                                                                                                                                                                                                                                                                   |
-| `C-w`                                            |                 | Kill the region (kill-region).                                                                                                                                                                                                                                                                                                                                                                                                   |
-| `M-w`                                            |                 | Copy the region into the kill ring (kill-ring-save).                                                                                                                                                                                                                                                                                                                                                                             |
-| (unassigned) `emacs-mcx.updateKillRingSave`      |                 | Replace the current kill ring entry with the region (kill-new with REPLACE).                                                                                                                                                                                                                                                                                                                                                     |
-| `C-y`                                            | ✓               | Yank the last kill into the buffer, at point (yank).                                                                                                                                                                                                                                                                                                                                                                             |
-| `M-y`                                            | ✓               | Either replace the text just yanked with an earlier batch of killed text (yank-pop), or allow selecting from the list of previously-killed batches of text.                                                                                                                                                                                                                                                                      |
-| `C-c y`                                          |                 | Browse kill ring                                                                                                                                                                                                                                                                                                                                                                                                                 |
-| `C-o`                                            |                 | Open line                                                                                                                                                                                                                                                                                                                                                                                                                        |
-| `C-j`                                            | ✓               | New line                                                                                                                                                                                                                                                                                                                                                                                                                         |
-| `C-m`                                            | ✓               | New line                                                                                                                                                                                                                                                                                                                                                                                                                         |
-| `C-x h`                                          |                 | Select All                                                                                                                                                                                                                                                                                                                                                                                                                       |
-| `C-x u`, `C-/`, `C-S--` (`C-_` with US keyboard) |                 | Undo                                                                                                                                                                                                                                                                                                                                                                                                                             |
-| `C-;`                                            |                 | Toggle line comment in and out                                                                                                                                                                                                                                                                                                                                                                                                   |
-| `M-;`                                            |                 | Toggle region comment in and out                                                                                                                                                                                                                                                                                                                                                                                                 |
-| `C-x C-l` (`M-l`)                                |                 | Convert to lower case (On the Emacs' original behavior, `C-x C-l` and `M-l` are assigned to the different functionalities. However, this extension assigns these keys to the same `emacs-mcx.transformToLowercase` command which calls `editor.action.transformToLowercase` command internally and works similarly to both the original Emacs' functionalities based on the context. Upper case and title case (below) are same) |
-| `C-x C-u` (`M-u`)                                |                 | Convert to upper case                                                                                                                                                                                                                                                                                                                                                                                                            |
-| `M-c`                                            |                 | Convert to title case                                                                                                                                                                                                                                                                                                                                                                                                            |
+| Command                                          | Prefix argument | Desc                                                                 |
+| ------------------------------------------------ | --------------- | -------------------------------------------------------------------- |
+| `C-d`                                            | ✓               | Delete right (DEL)                                                   |
+| `C-h`                                            | ✓               | Delete left (BACKSPACE)                                              |
+| `M-\`                                            | ✓               | Delete spaces and tabs around point (delete-horizontal-space)        |
+| `C-x C-o`                                        |                 | Delete blank lines around (delete-blank-lines)                       |
+| `C-t`                                            | ✓               | Transpose characters (transpose-chars)                               |
+| `C-x C-t`                                        | ✓               | Transpose lines (transpose-lines)                                    |
+| `M-S-6` (`M-^` with US keyboard)                 |                 | Join two lines cleanly (delete-indentation)                          |
+| `M-d`                                            | ✓               | Kill the next word (kill-word)                                       |
+| `M-Bksp`                                         | ✓               | Kill one word backwards (backward-kill-word)                         |
+| `M-z`                                            | ✓               | Kill up to and including the given character (zap-to-char)           |
+| `C-k`                                            | ✓               | Kill rest of line or one or more lines (kill-line)                   |
+| `C-S-Bksp`                                       |                 | Kill an entire line at once (kill-whole-line)                        |
+| `C-w`                                            |                 | Kill the region (kill-region)                                        |
+| `M-w`                                            |                 | Copy the region into the kill ring (kill-ring-save)                  |
+| `C-y`                                            | ✓               | Yank the last kill into the buffer (yank)                            |
+| `M-y`                                            | ✓               | Replace just-yanked text with earlier kill (yank-pop)                |
+| `C-c y`                                          |                 | Browse kill ring                                                     |
+| `C-o`                                            |                 | Open line                                                            |
+| `C-j`                                            | ✓               | New line                                                             |
+| `C-m`                                            | ✓               | New line                                                             |
+| `C-x h`                                          |                 | Select All                                                           |
+| `C-x u`, `C-/`, `C-S--` (`C-_` with US keyboard) |                 | Undo                                                                 |
+| `C-;`                                            |                 | Toggle line comment                                                  |
+| `M-;`                                            |                 | Toggle region comment                                                |
+| `C-M-\`                                          |                 | Format selection (indent-region), or format document if no selection |
+| `C-x C-l` (`M-l`)                                |                 | Convert to lower case                                                |
+| `C-x C-u` (`M-u`)                                |                 | Convert to upper case                                                |
+| `M-c`                                            |                 | Convert to title case                                                |
 
-## Mark Commands
+### Mark Commands
 
 | Command                                   | Desc                                                                                                         |
 | ----------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
@@ -349,13 +328,13 @@ Alt key is mapped to the Meta prefix (`M`) by default and you can configure for 
 
 See [this page](https://www.gnu.org/software/emacs/manual/html_node/emacs/Setting-Mark.html) and [this page](https://www.gnu.org/software/emacs/manual/html_node/emacs/Mark-Ring.html) about the mark and the mark ring.
 
-## Intellisense
+### Intellisense
 
-| Command                        | Desc                                                                                                                                         |
-| ------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------- |
-| `C-M-i`, `M-TAB`, `M-/`, `C-'` | Trigger suggest. These keybindings call `editor.action.triggerSuggest` command, alternating Emacs' `completion-at-point` or `dabbrev-expand` |
+| Command                        | Desc                                                                                                                                 |
+| ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------ |
+| `C-M-i`, `M-TAB`, `M-/`, `C-'` | Trigger suggest. These keybindings call `editor.action.triggerSuggest`, alternating Emacs' `completion-at-point` or `dabbrev-expand` |
 
-## Text registers
+### Text Registers
 
 | Command       | Desc                                              |
 | ------------- | ------------------------------------------------- |
@@ -364,14 +343,14 @@ See [this page](https://www.gnu.org/software/emacs/manual/html_node/emacs/Settin
 
 See [this page](https://www.gnu.org/software/emacs/manual/html_node/emacs/Text-Registers.html) about the text registers.
 
-## Position registers
+### Position Registers
 
 | Command         | Desc                                                                                       |
 | --------------- | ------------------------------------------------------------------------------------------ |
 | `C-x r SPC `_r_ | Record the position of point and the current buffer in register _r_ (`point-to-register`). |
 | `C-x r j `_r_   | Jump to the position and buffer saved in register _r_ (`jump-to-register`).                |
 
-## Rectangles
+### Rectangles
 
 | Command     | Desc                                                                                                      |
 | ----------- | --------------------------------------------------------------------------------------------------------- |
@@ -385,53 +364,61 @@ See [this page](https://www.gnu.org/software/emacs/manual/html_node/emacs/Text-R
 | `C-x r t`   | Replace rectangle contents with string on each line (string-rectangle).                                   |
 | `C-x SPC`   | Toggle Rectangle Mark mode (rectangle-mark-mode).                                                         |
 
-### Rectangle Registers
+#### Rectangle Registers
 
 | Command       | Desc                                                                                                                 |
 | ------------- | -------------------------------------------------------------------------------------------------------------------- |
 | `C-x r r `_r_ | Copy the region-rectangle into register _r_ (`copy-rectangle-to-register`). With prefix argument, delete it as well. |
 | `C-x r i `_r_ | Insert the rectangle stored in register _r_ (if it contains a rectangle) (`insert-register`).                        |
 
-### Other Commands
-
-| Command       | Desc                                                                                 |
-| ------------- | ------------------------------------------------------------------------------------ |
-| `C-g` (`ESC`) | Quit                                                                                 |
-| `ESC ESC ESC` | Quit (`keyboard-escape-quit`, but this extension does not distinguish it from `C-g`) |
-| `C-'` (`M-/`) | IntelliSense Suggestion                                                              |
-| `M-x`         | Open command palette                                                                 |
-| `C-M-SPC`     | Toggle SideBar visibility                                                            |
-| `C-x z`       | Toggle Zen Mode                                                                      |
-| `C-x C-c`     | Close window (save-buffers-kill-terminal)                                            |
-
 ### File Commands
 
-| Command   | Desc                                                                                                                                                                                                                                                                                                                                                                                       |
-| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `C-x C-f` | QuickOpen a file (Tips: This extension assigns `C-x C-f` to the VSCode's native [quick file navigation](https://code.visualstudio.com/docs/editor/editingevolved#_quick-file-navigation). If you prefer more Emacs-like behavior, [The "File Browser" extension by Bodil Stokke (`bodil.file-browser`)](https://marketplace.visualstudio.com/items?itemName=bodil.file-browser) may help.) |
-| `C-x C-s` | Save                                                                                                                                                                                                                                                                                                                                                                                       |
-| `C-x C-w` | Save as                                                                                                                                                                                                                                                                                                                                                                                    |
-| `C-x s`   | Save all files                                                                                                                                                                                                                                                                                                                                                                             |
-| `C-x C-n` | Open new window                                                                                                                                                                                                                                                                                                                                                                            |
+| Command   | Desc                                                                                                                                                                                                   |
+| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `C-x C-f` | QuickOpen a file (find-file). Uses VS Code's [quick file navigation](https://code.visualstudio.com/docs/editor/editingevolved#_quick-file-navigation) as the closest analog to Emacs' minibuffer find. |
+| `C-x C-s` | Save (save-buffer)                                                                                                                                                                                     |
+| `C-x C-w` | Save as (write-file)                                                                                                                                                                                   |
+| `C-x s`   | Save all files (save-some-buffers)                                                                                                                                                                     |
+| `C-x C-n` | Open new window                                                                                                                                                                                        |
 
-### Tab / Buffer Manipulation Commands
+### Tab / Buffer Commands
 
-| Command     | Desc                                              |
-| ----------- | ------------------------------------------------- |
-| `C-x b`     | Switch to another open buffer                     |
-| `C-x k`     | Close current tab (buffer)                        |
-| `C-x 0`     | Close the current editor group (`delete-window`). |
-| `C-x 1`     | Close editors in other (split) group.             |
-| `C-x 2`     | Split editor horizontal                           |
-| `C-x 3`     | Split editor vertical                             |
-| `C-x 4`     | Toggle split layout (vertical to horizontal)      |
-| `C-x o`     | Focus another editor group (`other-window`)       |
-| `C-x LEFT`  | Select the previous tab (previous-buffer).        |
-| `C-x RIGHT` | Select the next tab (next-buffer).                |
+| Command     | Desc                                                       |
+| ----------- | ---------------------------------------------------------- |
+| `C-x b`     | Switch to another open buffer (switch-to-buffer)           |
+| `C-x C-b`   | List all open buffers by most recently used (list-buffers) |
+| `C-x k`     | Close current tab / buffer (kill-buffer)                   |
+| `C-x 0`     | Close the current editor group (delete-window)             |
+| `C-x 1`     | Close editors in other groups (delete-other-windows)       |
+| `C-x 2`     | Split editor below (split-window-below)                    |
+| `C-x 3`     | Split editor right (split-window-right)                    |
+| `C-x 4`     | Toggle split layout (vertical to horizontal)               |
+| `C-x o`     | Focus another editor group (other-window)                  |
+| `C-x LEFT`  | Select the previous tab (previous-buffer)                  |
+| `C-x RIGHT` | Select the next tab (next-buffer)                          |
 
-### Prefix argument
+### Dired (File Browser)
 
-See https://www.gnu.org/software/emacs/manual/html_node/emacs/Arguments.html for detail
+Open dired with `C-x C-d` (or run the command `extension.dired.open`). Dired shows a directory listing similar to Emacs dired mode.
+
+| Command | Desc                          |
+| ------- | ----------------------------- |
+| `RET`   | Open file or enter directory  |
+| `^`     | Go up to parent directory     |
+| `.`     | Toggle display of dot files   |
+| `g`     | Refresh the directory listing |
+| `m`     | Mark/select the file at point |
+| `u`     | Unmark the file at point      |
+| `+`     | Create a new directory        |
+| `C-x f` | Create a new file             |
+| `R`     | Rename the file at point      |
+| `C`     | Copy the file at point        |
+| `D`     | Delete the file at point      |
+| `q`     | Close the dired buffer        |
+
+### Prefix Argument
+
+See https://www.gnu.org/software/emacs/manual/html_node/emacs/Arguments.html for detail.
 
 | Command      | Desc               |
 | ------------ | ------------------ |
@@ -439,7 +426,7 @@ See https://www.gnu.org/software/emacs/manual/html_node/emacs/Arguments.html for
 | `M-<number>` | digit-argument     |
 | `M--`        | negative-argument  |
 
-### sexp
+### Sexp
 
 | Command                              | Prefix argument | Desc                                                                                       |
 | ------------------------------------ | --------------- | ------------------------------------------------------------------------------------------ |
@@ -448,25 +435,36 @@ See https://www.gnu.org/software/emacs/manual/html_node/emacs/Arguments.html for
 | `C-M-S-2` (`C-M-@` with US keyboard) | ✓               | Set mark after end of following balanced expression (mark-sexp). This does not move point. |
 | `C-M-k`                              | ✓               | Kill balanced expression forward (kill-sexp)                                               |
 | `C-M-Bksp`                           | ✓               | Kill balanced expression backward (backward-kill-sexp)                                     |
-| `C-S-k`                              | ✓               | Kill a line as if with `kill-line`, but respecting delimiters. (paredit-kill)              |
+| `C-S-k`                              | ✓               | Kill a line as if with `kill-line`, but respecting delimiters (paredit-kill)               |
 
-This extension makes use of [paredit.js](https://github.com/rksm/paredit.js) to provide sexp functionalities. Thank you for this great library.
+Sexp operations are powered by [paredit-ts](https://github.com/nickmeldrum/paredit-ts).
 
-### Looking up identifiers
+### Looking Up Identifiers
 
-| Command                          | Desc                                                                                                                                                       |
-| -------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `M-.`                            | Find definitions of an identifier (xref-find-definitions). It's just bound to VSCode's "Go to Definition" (`editor.action.revealDefinition`).              |
-| `M-,`                            | Go back to where you previously invoked M-. and friends (xref-go-back). It's just bound to VSCode's "Go Back" (`workbench.action.navigateBack`).           |
-| `C-M-,`                          | Go forward to where you previously invoked M-, (xref-go-forward). It's just bound to VSCode's "Go Forward" (`workbench.action.navigateForward`).           |
-| `M-S-/` (`M-?` with US keyboard) | Find references of an identifier (xref-find-references). It's just bound to VSCode's "References: Find All References" (`references-view.findReferences`). |
+| Command                          | Desc                                                                              |
+| -------------------------------- | --------------------------------------------------------------------------------- |
+| `M-.`                            | Find definitions (xref-find-definitions). Bound to VS Code's "Go to Definition".  |
+| `M-,`                            | Go back (xref-go-back). Bound to VS Code's "Go Back".                             |
+| `C-M-,`                          | Go forward (xref-go-forward). Bound to VS Code's "Go Forward".                    |
+| `M-S-/` (`M-?` with US keyboard) | Find references (xref-find-references). Bound to VS Code's "Find All References". |
 
-## Other commands/APIs
+### Other Commands
+
+| Command       | Desc                        |
+| ------------- | --------------------------- |
+| `C-g` (`ESC`) | Quit                        |
+| `ESC ESC ESC` | Quit (keyboard-escape-quit) |
+| `M-x`         | Open command palette        |
+| `C-M-SPC`     | Toggle SideBar visibility   |
+| `C-x z`       | Toggle Zen Mode             |
+| `C-x C-c`     | Close window                |
+
+## Other Commands/APIs
 
 ### `emacs-mcx.executeCommandWithPrefixArgument`
 
 This command calls another command with the prefix argument.
-This is mainly for extension developers who want to make the extensions collaborative with this extension's prefix argument. See [the issue #1146](https://github.com/whitphx/vscode-emacs-mcx/issues/1146) for the discussion about it.
+This is mainly for extension developers who want to make extensions collaborative with this extension's prefix argument.
 
 For example, if you define the keybinding below,
 
@@ -483,10 +481,7 @@ For example, if you define the keybinding below,
 }
 ```
 
-You can pass the arguments to the target command as below. In this case,
-
-- `C-x e` will call the command `foo` with the argument `{ baz: 42 }`.
-- `C-u C-x e` will call the command `foo` with the argument `{ prefixArgument: 4, baz: 42 }`.
+You can pass arguments to the target command:
 
 ```json
 {
@@ -501,7 +496,7 @@ You can pass the arguments to the target command as below. In this case,
 }
 ```
 
-You can change the key name of the prefix argument.
+You can change the key name of the prefix argument:
 
 ```json
 {
@@ -514,14 +509,9 @@ You can change the key name of the prefix argument.
 }
 ```
 
-- `C-x e` will call the command `foo` with the argument `{}`.
-- `C-u C-x e` will call the command `foo` with the argument `{ repeat: 4 }`.
+### Overriding the Prefix Argument
 
-### Overriding the prefix argument
-
-When you define a keybinding for `emacs-mcx.*` commands, you can override the prefix argument by specifying the `prefixArgument` in the keybinding's arguments.
-
-For example:
+When you define a keybinding for `emacs-mcx.*` commands, you can override the prefix argument by specifying `prefixArgument` in the keybinding's arguments.
 
 ```json
 {
@@ -533,24 +523,22 @@ For example:
 }
 ```
 
-With this keybinding, you can call `emacs-mcx.yankPop` command with a prefix argument `-1` by pressing `alt+shift+y`.
+## Conflicts with Default Key Bindings
 
-## Conflicts with default key bindings
-
-- `ctrl+d`: editor.action.addSelectionToNextFindMatch => **Use `ctrl+alt+n` instead**;
-- `ctrl+g`: workbench.action.gotoLine => **Use `alt+g g` instead**;
-- `ctrl+b`: workbench.action.toggleSidebarVisibility => **Use `ctrl+alt+space` instead**;
-- `ctrl+j`: workbench.action.togglePanel => **Use `ctrl+x j` instead**;
-- `ctrl+space`: toggleSuggestionDetails, editor.action.triggerSuggest => **Use `ctrl+'` instead**;
-- `ctrl+x`: editor.action.clipboardCutAction => **Use `ctrl+w` instead**;
-- `ctrl+v`: editor.action.clipboardPasteAction => **Use `ctrl+y` instead**;
-- `ctrl+k`: editor.debug.action.showDebugHover, editor.action.trimTrailingWhitespace, editor.action.showHover, editor.action.removeCommentLine, editor.action.addCommentLine, editor.action.openDeclarationToTheSide;
-- `ctrl+k z`: workbench.action.toggleZenMode => **Use `ctrl+x z` instead**;
-- `ctrl+y`: redo;
-- `ctrl+m`: editor.action.toggleTabFocusMode;
-- `ctrl+/`: editor.action.commentLine => **Use `ctrl+;` instead**;
-- `ctrl+p` & `ctrl+e`: workbench.action.quickOpen => **Use `ctrl+x ctrl+f` instead**;
-- `ctrl+o`: workbench.action.files.openFileFolder;
+- `ctrl+d`: editor.action.addSelectionToNextFindMatch — **Use `ctrl+alt+n` instead**
+- `ctrl+g`: workbench.action.gotoLine — **Use `alt+g g` instead**
+- `ctrl+b`: workbench.action.toggleSidebarVisibility — **Use `ctrl+alt+space` instead**
+- `ctrl+j`: workbench.action.togglePanel — **Use `ctrl+x j` instead**
+- `ctrl+space`: toggleSuggestionDetails — **Use `ctrl+'` instead**
+- `ctrl+x`: editor.action.clipboardCutAction — **Use `ctrl+w` instead**
+- `ctrl+v`: editor.action.clipboardPasteAction — **Use `ctrl+y` instead**
+- `ctrl+k`: various editor actions
+- `ctrl+k z`: workbench.action.toggleZenMode — **Use `ctrl+x z` instead**
+- `ctrl+y`: redo
+- `ctrl+m`: editor.action.toggleTabFocusMode
+- `ctrl+/`: editor.action.commentLine — **Use `ctrl+;` instead**
+- `ctrl+p` & `ctrl+e`: workbench.action.quickOpen — **Use `ctrl+x ctrl+f` instead**
+- `ctrl+o`: workbench.action.files.openFileFolder
 
 ## Contributions/Development
 

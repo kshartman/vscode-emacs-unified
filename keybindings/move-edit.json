@@ -403,6 +403,17 @@
     "isearchInterruptible": true
   },
   {
+    // `indent-region` in Emacs. Formats the selection, or the whole document if no selection.
+    "key": "ctrl+meta+\\",
+    "command": "editor.action.formatSelection",
+    "when": "editorHasDocumentSelectionFormattingProvider && editorTextFocus && !editorReadonly && editorHasSelection"
+  },
+  {
+    "key": "ctrl+meta+\\",
+    "command": "editor.action.formatDocument",
+    "when": "editorHasDocumentFormattingProvider && editorTextFocus && !editorReadonly && !editorHasSelection"
+  },
+  {
     "key": "ctrl+;", // TODO: `C-x C-;` is true in the original Emacs.
     "command": "editor.action.commentLine",
     "when": "editorTextFocus && !editorReadonly",

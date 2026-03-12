@@ -1,4 +1,12 @@
-import { Position, Range, TextEditor } from "vscode";
+import { Position, Range, TextDocument, TextEditor } from "vscode";
+
+/**
+ * Stable document identity key suitable for use as a Map key.
+ * Uses `uri.toString()` which is the canonical string form of a VS Code URI.
+ */
+export function getDocumentId(document: TextDocument): string {
+  return document.uri.toString();
+}
 
 export function equalPositions(positions1: readonly Position[], positions2: readonly Position[]): boolean {
   if (positions1.length !== positions2.length) {

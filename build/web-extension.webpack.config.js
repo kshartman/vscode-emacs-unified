@@ -53,6 +53,10 @@ const config = /** @type WebpackConfig */ {
     new webpack.ProvidePlugin({
       process: "process/browser.js", // provide a shim for the global `process` variable
     }),
+    // Dired requires Node.js builtins (fs, path, os) — exclude from web bundle
+    new webpack.IgnorePlugin({
+      resourceRegExp: /\.\/commands\/dired/,
+    }),
   ],
   externals: {
     vscode: "commonjs vscode", // ignored because it doesn't exist

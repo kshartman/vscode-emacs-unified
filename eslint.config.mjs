@@ -3,14 +3,12 @@
 import { defineConfig, globalIgnores } from "eslint/config";
 import eslint from "@eslint/js";
 import tseslint from "typescript-eslint";
-import mochaPlugin from "eslint-plugin-mocha";
-
 import path from "node:path";
 
 const config = defineConfig(
   eslint.configs.recommended,
   tseslint.configs.recommendedTypeChecked,
-  globalIgnores(["src/vs/**"]),
+  globalIgnores(["src/vs/**", "build/**", "vitest.config.ts"]),
   {
     // Ref: https://typescript-eslint.io/getting-started/typed-linting/
     languageOptions: {
@@ -50,11 +48,8 @@ const config = defineConfig(
   },
   {
     files: ["**/*.test.{ts,mts}"],
-    plugins: {
-      mocha: mochaPlugin,
-    },
     rules: {
-      "mocha/no-exclusive-tests": "error",
+      "no-restricted-globals": ["error", { name: "only", message: "Do not commit .only tests" }],
     },
   },
 );

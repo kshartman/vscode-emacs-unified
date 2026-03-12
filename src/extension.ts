@@ -10,13 +10,21 @@ import { KillRing } from "./kill-yank/kill-ring";
 import { Logger } from "./logger";
 import { MessageManager } from "./message";
 import { InputBoxMinibuffer } from "./minibuffer";
-import type { Unreliable } from "./utils";
-
+import { getDocumentId, type Unreliable } from "./utils";
 const logger = Logger.get("Extension");
 
 export function activate(context: vscode.ExtensionContext): void {
   MessageManager.registerDispose(context);
   Configuration.registerDispose(context);
+
+  // Dired requires Node.js builtins (fs, path, os) and is not available in the web extension
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const { registerDired } = require("./commands/dired") as typeof import("./commands/dired");
+    registerDired(context);
+  } catch {
+    logger.debug("Dired not available (web extension environment)");
+  }
   context.subscriptions.push(WorkspaceConfigCache.instance);
 
   const killRing = new KillRing(Configuration.instance.killRingMax);
@@ -46,40 +54,52 @@ export function activate(context: vscode.ExtensionContext): void {
 
   context.subscriptions.push(
     vscode.window.onDidChangeActiveTextEditor(async (editor) => {
-      registerCommandState.stopAcceptingRegisterName();
-      zapCommandState.stopAccepting();
+      try {
+        registerCommandState.stopAcceptingRegisterName();
+        zapCommandState.stopAccepting();
 
-      if (editor == null) {
-        return;
-      }
+        if (editor == null) {
+          return;
+        }
 
-      const documentId = editor.document.uri.toString();
-      const emulator = emacsEmulatorMap.get(documentId);
-      if (emulator) {
-        await emulator.switchTextEditor(editor);
+        const documentId = getDocumentId(editor.document);
+        const emulator = emacsEmulatorMap.get(documentId);
+        if (emulator) {
+          await emulator.switchTextEditor(editor);
+        }
+      } catch (error) {
+        logger.error(`onDidChangeActiveTextEditor: ${String(error)}`);
       }
     }),
   );
 
   context.subscriptions.push(
     vscode.workspace.onDidCloseTextDocument(() => {
-      const documents = vscode.workspace.textDocuments;
+      try {
+        const documents = vscode.workspace.textDocuments;
 
-      // Delete emulators once all tabs of this document have been closed
-      for (const uri of emacsEmulatorMap.keys()) {
-        const emulator = emacsEmulatorMap.get(uri);
-        if (emulator == null || !documents.includes(emulator.textEditor.document)) {
-          emulator?.dispose();
-          emacsEmulatorMap.delete(uri);
+        // Delete emulators once all tabs of this document have been closed
+        for (const uri of emacsEmulatorMap.keys()) {
+          const emulator = emacsEmulatorMap.get(uri);
+          if (emulator == null || !documents.includes(emulator.textEditor.document)) {
+            emulator?.dispose();
+            emacsEmulatorMap.delete(uri);
+          }
         }
+      } catch (error) {
+        logger.error(`onDidCloseTextDocument: ${String(error)}`);
       }
     }),
   );
 
   context.subscriptions.push(
     vscode.workspace.onDidChangeConfiguration((e) => {
-      if (e.affectsConfiguration("emacs-mcx")) {
-        Configuration.reload();
+      try {
+        if (e.affectsConfiguration("emacs-mcx")) {
+          Configuration.reload();
+        }
+      } catch (error) {
+        logger.error(`onDidChangeConfiguration: ${String(error)}`);
       }
     }),
   );
@@ -92,31 +112,36 @@ export function activate(context: vscode.ExtensionContext): void {
     context.subscriptions.push(
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       vscode.commands.registerCommand(commandName, async (args: Unreliable<any>) => {
-        logger.debug(`[command]\t Command "${commandName}" executed with args ${JSON.stringify(args)}`);
+        try {
+          logger.debug(`[command]\t Command "${commandName}" executed with args ${JSON.stringify(args)}`);
 
-        // Some commands make changes to the editor or the document right after showing a message,
-        // which causes the message to disappear immediately.
-        // To prevent this, we defer showing the message until after the command has fully executed.
-        return MessageManager.withMessageDefer(() => {
-          const activeTextEditor = vscode.window.activeTextEditor;
-          if (activeTextEditor == null) {
-            if (typeof onNoEmulator === "function") {
-              return onNoEmulator(args);
+          // Some commands make changes to the editor or the document right after showing a message,
+          // which causes the message to disappear immediately.
+          // To prevent this, we defer showing the message until after the command has fully executed.
+          return await MessageManager.withMessageDefer(() => {
+            const activeTextEditor = vscode.window.activeTextEditor;
+            if (activeTextEditor == null) {
+              if (typeof onNoEmulator === "function") {
+                return onNoEmulator(args);
+              }
+              return;
             }
-            return;
-          }
 
-          const documentId = activeTextEditor.document.uri.toString();
-          let emulator = emacsEmulatorMap.get(documentId);
-          if (emulator == null) {
-            emulator = createEmacsEmulator(activeTextEditor);
-            emacsEmulatorMap.set(documentId, emulator);
-          } else {
-            emulator.setTextEditor(activeTextEditor);
-          }
+            const documentId = getDocumentId(activeTextEditor.document);
+            let emulator = emacsEmulatorMap.get(documentId);
+            if (emulator == null) {
+              emulator = createEmacsEmulator(activeTextEditor);
+              emacsEmulatorMap.set(documentId, emulator);
+            } else {
+              emulator.setTextEditor(activeTextEditor);
+            }
 
-          return callback(emulator, args);
-        });
+            return callback(emulator, args);
+          });
+        } catch (error) {
+          logger.error(`Command "${commandName}" failed: ${String(error)}`);
+          return undefined;
+        }
       }),
     );
   }
