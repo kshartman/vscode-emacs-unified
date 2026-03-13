@@ -2,11 +2,9 @@
 
 Tracked issues in the codebase are marked with `// ISSUE-<number>` comments.
 
-## ISSUE-1: Paredit kill does not integrate with kill ring
+## ~~ISSUE-1: Paredit kill does not integrate with kill ring~~ (RESOLVED)
 
-Killed text from `paredit-kill` is not added to the kill ring, so it cannot be yanked back with `C-y`. The kill itself works correctly — the text is deleted respecting sexp boundaries — but the kill ring integration is missing.
-
-**Files:** `src/test/suite/commands/paredit.test.ts`
+The kill ring integration was working correctly all along — `PareditKill` extends `KillYankCommand` and calls `killYanker.kill()`. The disabled test assertions had incorrect expected values (comparing yanked text against `initialText` instead of the killed portion). Tests fixed with correct expectations.
 
 ## ISSUE-2: Register copy-to-register does not handle multi-cursor
 

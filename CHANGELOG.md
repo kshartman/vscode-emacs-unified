@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.1.0
+
+### Added
+
+- **`C-M-u`** — `backward-up-list`: move up/out one level of parentheses
+- **`C-M-d`** — `down-list`: move forward and down into the next list
+
+### Fixed
+
+- **Paredit kill ring integration** (ISSUE-1) — `paredit-kill` (`C-S-k`) was correctly adding killed text to the kill ring all along; fixed test assertions that had incorrect expected values
+
 ## 1.0.0 — Emacs Unified
 
 First release of Emacs Unified, a consolidation of multiple VS Code Emacs extensions into a single package.

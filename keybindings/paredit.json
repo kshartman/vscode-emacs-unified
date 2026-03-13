@@ -28,5 +28,17 @@
     "key": "ctrl+meta+backspace",
     "command": "emacs-mcx.paredit.backwardKillSexp",
     "when": "editorTextFocus"
+  },
+  {
+    // `backward-up-list` in Emacs. Move up/out one level of parentheses.
+    "key": "ctrl+meta+u",
+    "command": "emacs-mcx.paredit.backwardUpSexp",
+    "when": "editorTextFocus"
+  },
+  {
+    // `down-list` in Emacs. Move forward and down into the next list.
+    "key": "ctrl+meta+d",
+    "command": "emacs-mcx.paredit.forwardDownSexp",
+    "when": "editorTextFocus"
   }
 ]

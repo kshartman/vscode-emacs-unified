@@ -2,7 +2,7 @@
   "name": "emacs-unified",
   "displayName": "Emacs Unified",
   "description": "Consolidated Emacs emulation for VSCode: keybindings, kill-ring, mark-mode, dired, multi-command, and more.",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "publisher": "kshartman",
   "repository": {
     "type": "git",
@@ -4941,6 +4941,46 @@
       {
         "key": "ctrl+[ ctrl+backspace",
         "command": "emacs-mcx.paredit.backwardKillSexp",
+        "when": "editorTextFocus && config.emacs-mcx.useMetaPrefixCtrlLeftBracket"
+      },
+      {
+        "key": "ctrl+alt+u",
+        "command": "emacs-mcx.paredit.backwardUpSexp",
+        "when": "editorTextFocus && config.emacs-mcx.useMetaPrefixAlt"
+      },
+      {
+        "mac": "ctrl+cmd+u",
+        "command": "emacs-mcx.paredit.backwardUpSexp",
+        "when": "editorTextFocus && config.emacs-mcx.useMetaPrefixMacCmd"
+      },
+      {
+        "key": "escape ctrl+u",
+        "command": "emacs-mcx.paredit.backwardUpSexp",
+        "when": "editorTextFocus && config.emacs-mcx.useMetaPrefixEscape"
+      },
+      {
+        "key": "ctrl+[ ctrl+u",
+        "command": "emacs-mcx.paredit.backwardUpSexp",
+        "when": "editorTextFocus && config.emacs-mcx.useMetaPrefixCtrlLeftBracket"
+      },
+      {
+        "key": "ctrl+alt+d",
+        "command": "emacs-mcx.paredit.forwardDownSexp",
+        "when": "editorTextFocus && config.emacs-mcx.useMetaPrefixAlt"
+      },
+      {
+        "mac": "ctrl+cmd+d",
+        "command": "emacs-mcx.paredit.forwardDownSexp",
+        "when": "editorTextFocus && config.emacs-mcx.useMetaPrefixMacCmd"
+      },
+      {
+        "key": "escape ctrl+d",
+        "command": "emacs-mcx.paredit.forwardDownSexp",
+        "when": "editorTextFocus && config.emacs-mcx.useMetaPrefixEscape"
+      },
+      {
+        "key": "ctrl+[ ctrl+d",
+        "command": "emacs-mcx.paredit.forwardDownSexp",
         "when": "editorTextFocus && config.emacs-mcx.useMetaPrefixCtrlLeftBracket"
       },
       {
