@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.1.2
+
+### Changed
+
+- **Dired binding** — changed from `C-x C-d` to `C-x d` to match standard Emacs `dired` keybinding
+
 ## 1.1.1
 
 ### Fixed

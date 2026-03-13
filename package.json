@@ -2,7 +2,7 @@
   "name": "emacs-unified",
   "displayName": "Emacs Unified",
   "description": "Consolidated Emacs emulation for VSCode: keybindings, kill-ring, mark-mode, dired, multi-command, and more.",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "publisher": "kshartman",
   "repository": {
     "type": "git",
@@ -8177,7 +8177,7 @@
         "when": "!terminalFocus"
       },
       {
-        "key": "ctrl+x ctrl+d",
+        "key": "ctrl+x d",
         "command": "extension.dired.open",
         "when": "!terminalFocus"
       },

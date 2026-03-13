@@ -57,8 +57,8 @@
     "when": "!terminalFocus"
   },
   {
-    // `list-directory` / dired in Emacs. Opens the dired file browser.
-    "key": "ctrl+x ctrl+d",
+    // `dired` in Emacs. Opens the dired file browser.
+    "key": "ctrl+x d",
     "command": "extension.dired.open",
     "when": "!terminalFocus"
   },
