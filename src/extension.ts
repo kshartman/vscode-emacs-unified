@@ -191,6 +191,9 @@ export function activate(context: vscode.ExtensionContext): void {
 
   bindEmulatorCommand("gotoLine");
 
+  bindEmulatorCommand("nextError");
+  bindEmulatorCommand("previousError");
+
   bindEmulatorCommand("findDefinitions");
 
   bindEmulatorCommand("isearchForward");
@@ -285,6 +288,8 @@ export function activate(context: vscode.ExtensionContext): void {
   registerEmulatorCommand("emacs-mcx.cancel", (emulator) => emulator.cancel());
 
   bindEmulatorCommand("newLine");
+
+  bindEmulatorCommand("commentDwim");
 
   bindEmulatorCommand("transformToUppercase");
 

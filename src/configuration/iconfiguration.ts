@@ -56,6 +56,18 @@ export interface IConfiguration {
   wordNavigationStyle: "vscode" | "emacs";
 
   /**
+   * Column at which comment-dwim inserts end-of-line comments.
+   */
+  commentColumn: number;
+
+  /**
+   * Map of languageId → comment delimiter.
+   * Accepts a string (line comment) or {start, end} (block comment).
+   * Overrides/extends the built-in defaults.
+   */
+  commentSyntax: Record<string, string | { start: string; end: string }>;
+
+  /**
    * Extension debugging settings
    */
   debug: IDebugConfiguration;

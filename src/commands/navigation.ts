@@ -51,6 +51,44 @@ export class GotoLine extends EmacsCommand {
   }
 }
 
+/**
+ * Emacs-like `next-error`: jump to next diagnostic if any exist in the
+ * current file, otherwise navigate search sidebar results, otherwise no-op.
+ */
+export class NextError extends EmacsCommand {
+  public readonly id = "nextError";
+
+  public async run(): Promise<void> {
+    const uri = vscode.window.activeTextEditor?.document.uri;
+    const diagnostics = uri ? vscode.languages.getDiagnostics(uri) : [];
+    if (diagnostics.length > 0) {
+      await vscode.commands.executeCommand("editor.action.marker.next");
+    } else {
+      // Navigate search sidebar results (Ctrl+Shift+F results) without
+      // opening the in-editor find widget.
+      await vscode.commands.executeCommand("search.action.focusNextSearchResult");
+    }
+  }
+}
+
+/**
+ * Emacs-like `previous-error`: jump to previous diagnostic if any exist in the
+ * current file, otherwise navigate search sidebar results, otherwise no-op.
+ */
+export class PreviousError extends EmacsCommand {
+  public readonly id = "previousError";
+
+  public async run(): Promise<void> {
+    const uri = vscode.window.activeTextEditor?.document.uri;
+    const diagnostics = uri ? vscode.languages.getDiagnostics(uri) : [];
+    if (diagnostics.length > 0) {
+      await vscode.commands.executeCommand("editor.action.marker.prev");
+    } else {
+      await vscode.commands.executeCommand("search.action.focusPreviousSearchResult");
+    }
+  }
+}
+
 export class FindDefinitions extends EmacsCommand {
   public readonly id = "findDefinitions";
 

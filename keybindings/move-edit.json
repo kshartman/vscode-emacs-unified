@@ -202,21 +202,21 @@
     "command": "emacs-mcx.gotoLine",
     "when": "config.emacs-mcx.useMetaPrefixEscape"
   },
-  // marker next
+  // next-error: diagnostics first, then search matches
   {
     "keys": ["meta+g n", "meta+g meta+n"],
-    "command": "editor.action.marker.next",
+    "command": "emacs-mcx.nextError",
     "when": "editorTextFocus"
   },
   {
     "key": "ctrl+x `",
-    "command": "editor.action.marker.next",
+    "command": "emacs-mcx.nextError",
     "when": "editorTextFocus"
   },
-  // marker prev
+  // previous-error: diagnostics first, then search matches
   {
     "keys": ["meta+g p", "meta+g meta+p"],
-    "command": "editor.action.marker.prev",
+    "command": "emacs-mcx.previousError",
     "when": "editorTextFocus"
   },
   // recenter-top-bottom
@@ -420,8 +420,8 @@
     "isearchInterruptible": true
   },
   {
-    "key": "meta+;", // TODO: This is also different from the original Emacs.
-    "command": "editor.action.blockComment",
+    "key": "meta+;",
+    "command": "emacs-mcx.commentDwim",
     "when": "editorTextFocus && !editorReadonly",
     "isearchInterruptible": true
   },

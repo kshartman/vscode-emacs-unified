@@ -80,6 +80,10 @@ export class Configuration implements IConfiguration, vscode.Disposable {
     return this.scrollDownCommandBehavior;
   }
 
+  public commentColumn = 32;
+
+  public commentSyntax: Record<string, string | { start: string; end: string }> = {};
+
   public debug: IDebugConfiguration = {
     silent: false,
     loggingLevelForAlert: "error",

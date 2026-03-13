@@ -1,8 +1,8 @@
 {
   "name": "emacs-unified",
   "displayName": "Emacs Unified",
-  "description": "Consolidated Emacs emulation for VSCode: keybindings, kill-ring, mark-mode, dired, multi-command, and more.",
-  "version": "1.1.2",
+  "description": "Consolidated Emacs emulation for VS Code: keybindings, kill-ring, mark-mode, paredit, dired, and more.",
+  "version": "1.2.2",
   "publisher": "kshartman",
   "repository": {
     "type": "git",
@@ -192,6 +192,41 @@
           "description": "Make word-oriented move and edit commands recognize subwords.",
           "default": false,
           "scope": "language-overridable"
+        },
+        "emacs-mcx.commentColumn": {
+          "type": "number",
+          "default": 32,
+          "description": "Column at which comment-dwim (M-;) inserts end-of-line comments. Same as Emacs comment-column (default 32)."
+        },
+        "emacs-mcx.commentSyntax": {
+          "type": "object",
+          "default": {},
+          "additionalProperties": {
+            "oneOf": [
+              {
+                "type": "string",
+                "description": "Line comment delimiter (e.g. \"//\" or \"#\")"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "start": {
+                    "type": "string",
+                    "description": "Comment start delimiter (e.g. \"/*\")"
+                  },
+                  "end": {
+                    "type": "string",
+                    "description": "Comment end delimiter (e.g. \"*/\")"
+                  }
+                },
+                "required": [
+                  "start",
+                  "end"
+                ]
+              }
+            ]
+          },
+          "markdownDescription": "Map of VS Code language ID → comment delimiter. Overrides/extends the built-in defaults used by comment-dwim (`M-;`). A plain string means a line comment (e.g. `\"python\": \"#\"`). An object with `start`/`end` means a block comment (e.g. `\"c\": {\"start\": \"/*\", \"end\": \"*/\"}`)."
         },
         "emacs-mcx.debug.silent": {
           "type": "boolean",
@@ -3525,47 +3560,47 @@
       },
       {
         "key": "alt+g n",
-        "command": "editor.action.marker.next",
+        "command": "emacs-mcx.nextError",
         "when": "editorTextFocus && config.emacs-mcx.useMetaPrefixAlt"
       },
       {
         "mac": "cmd+g n",
-        "command": "editor.action.marker.next",
+        "command": "emacs-mcx.nextError",
         "when": "editorTextFocus && config.emacs-mcx.useMetaPrefixMacCmd"
       },
       {
         "key": "alt+g alt+n",
-        "command": "editor.action.marker.next",
+        "command": "emacs-mcx.nextError",
         "when": "editorTextFocus && config.emacs-mcx.useMetaPrefixAlt"
       },
       {
         "mac": "cmd+g cmd+n",
-        "command": "editor.action.marker.next",
+        "command": "emacs-mcx.nextError",
         "when": "editorTextFocus && config.emacs-mcx.useMetaPrefixMacCmd"
       },
       {
         "key": "ctrl+x `",
-        "command": "editor.action.marker.next",
+        "command": "emacs-mcx.nextError",
         "when": "editorTextFocus"
       },
       {
         "key": "alt+g p",
-        "command": "editor.action.marker.prev",
+        "command": "emacs-mcx.previousError",
         "when": "editorTextFocus && config.emacs-mcx.useMetaPrefixAlt"
       },
       {
         "mac": "cmd+g p",
-        "command": "editor.action.marker.prev",
+        "command": "emacs-mcx.previousError",
         "when": "editorTextFocus && config.emacs-mcx.useMetaPrefixMacCmd"
       },
       {
         "key": "alt+g alt+p",
-        "command": "editor.action.marker.prev",
+        "command": "emacs-mcx.previousError",
         "when": "editorTextFocus && config.emacs-mcx.useMetaPrefixAlt"
       },
       {
         "mac": "cmd+g cmd+p",
-        "command": "editor.action.marker.prev",
+        "command": "emacs-mcx.previousError",
         "when": "editorTextFocus && config.emacs-mcx.useMetaPrefixMacCmd"
       },
       {
@@ -3990,22 +4025,22 @@
       },
       {
         "key": "alt+;",
-        "command": "editor.action.blockComment",
+        "command": "emacs-mcx.commentDwim",
         "when": "editorTextFocus && !editorReadonly && config.emacs-mcx.useMetaPrefixAlt"
       },
       {
         "mac": "cmd+;",
-        "command": "editor.action.blockComment",
+        "command": "emacs-mcx.commentDwim",
         "when": "editorTextFocus && !editorReadonly && config.emacs-mcx.useMetaPrefixMacCmd"
       },
       {
         "key": "escape ;",
-        "command": "editor.action.blockComment",
+        "command": "emacs-mcx.commentDwim",
         "when": "editorTextFocus && !editorReadonly && config.emacs-mcx.useMetaPrefixEscape"
       },
       {
         "key": "ctrl+[ ;",
-        "command": "editor.action.blockComment",
+        "command": "emacs-mcx.commentDwim",
         "when": "editorTextFocus && !editorReadonly && config.emacs-mcx.useMetaPrefixCtrlLeftBracket"
       },
       {
@@ -4014,7 +4049,7 @@
         "when": "editorFocus && findWidgetVisible && !replaceInputFocussed && !isComposing && config.emacs-mcx.useMetaPrefixAlt",
         "args": {
           "then": {
-            "command": "editor.action.blockComment"
+            "command": "emacs-mcx.commentDwim"
           }
         }
       },
@@ -4024,7 +4059,7 @@
         "when": "editorFocus && findWidgetVisible && !replaceInputFocussed && !isComposing && config.emacs-mcx.useMetaPrefixMacCmd",
         "args": {
           "then": {
-            "command": "editor.action.blockComment"
+            "command": "emacs-mcx.commentDwim"
           }
         }
       },
@@ -4034,7 +4069,7 @@
         "when": "editorFocus && findWidgetVisible && !replaceInputFocussed && !isComposing && config.emacs-mcx.useMetaPrefixEscape",
         "args": {
           "then": {
-            "command": "editor.action.blockComment"
+            "command": "emacs-mcx.commentDwim"
           }
         }
       },
@@ -4044,7 +4079,7 @@
         "when": "editorFocus && findWidgetVisible && !replaceInputFocussed && !isComposing && config.emacs-mcx.useMetaPrefixCtrlLeftBracket",
         "args": {
           "then": {
-            "command": "editor.action.blockComment"
+            "command": "emacs-mcx.commentDwim"
           }
         }
       },

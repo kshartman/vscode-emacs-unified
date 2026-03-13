@@ -1,5 +1,36 @@
 # Changelog
 
+## 1.2.2
+
+### Fixed
+
+- **`M-g n` / `M-g p`** — no longer opens the in-editor find widget when there are no diagnostics. Falls back to search sidebar results (`Ctrl+Shift+F`) instead.
+
+## 1.2.1
+
+### Added
+
+- **`M-g n` / `M-g p` — unified `next-error` / `previous-error`** — jumps to next/previous diagnostic if the current file has any, otherwise navigates search sidebar results. Matches Emacs `next-error` behavior of navigating whatever error source is active.
+
+## 1.2.0
+
+### Added
+
+- **`M-;` — `comment-dwim`** — proper Emacs comment-dwim implementation:
+  - Region active → toggle comment/uncomment
+  - Blank line → insert comment at code indentation level
+  - Code line, no comment → append comment at `comment-column`
+  - Code line with comment → move cursor into existing comment
+  - Comment-only line → realign to code indentation
+  - Block comment support: C mode uses `/* */` (matching cc-mode), C++ and most others use `//`
+  - Built-in syntax for 40+ languages; user-extensible via `emacs-mcx.commentSyntax`
+- **`emacs-mcx.commentColumn`** setting — column for end-of-line comments (default 32, matching Emacs)
+- **`emacs-mcx.commentSyntax`** setting — override comment delimiters per language, supports both line (`"#"`) and block (`{"start": "/*", "end": "*/"}`) styles
+
+### Fixed
+
+- **Package description** — removed reference to dropped `multi-command` extension; added `paredit`
+
 ## 1.1.2
 
 ### Changed

@@ -18,6 +18,12 @@ When multiple cursors are active, `copy-to-register` (`C-x r s`) joins all selec
 
 **Files:** `src/test/suite/commands/case.test.ts`
 
+## ISSUE-5: comment-dwim does not support C-u M-; (comment-kill)
+
+`C-u M-;` should kill the comment on the current line to the kill ring (Emacs `comment-kill`). Currently the prefix argument is ignored.
+
+**Files:** `src/commands/edit.ts`
+
 ## ISSUE-4: Rectangle commands differ from Emacs on empty selections
 
 Rectangle kill (`C-x r k`) and rectangle delete (`C-x r d`) behave differently from GNU Emacs when the selections are empty. The current behavior is functional but not Emacs-faithful.
