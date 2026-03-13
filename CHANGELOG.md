@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.1.1
+
+### Fixed
+
+- **Dired keybindings** — Enter, `q`, `^`, `g`, `m`, `u`, `d`, `r`, `c`, `.`, `+`, `C-x C-f` now work in dired buffers. Keybindings were registered in code but missing from package.json.
+
 ## 1.1.0
 
 ### Added
