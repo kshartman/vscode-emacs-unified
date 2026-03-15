@@ -73,6 +73,7 @@ The extension provides comprehensive Emacs keybindings and operations: multi-cur
 
 ## Key Design Decisions
 
+- **`emacs-mcx` namespace retained** — all command IDs (`emacs-mcx.*`) and configuration keys (`emacs-mcx.*`) keep the upstream namespace for settings compatibility with vscode-emacs-mcx. This means **Emacs Unified and vscode-emacs-mcx cannot be installed simultaneously** — they will collide on command IDs and keybindings. Users must uninstall one before installing the other.
 - **Zero runtime npm dependencies** except `paredit-ts` — logging uses VS Code's built-in `LogOutputChannel`, no Winston
 - **Engine requirement**: VS Code ^1.93.0
 - **Activation**: `onStartupFinished` (single activation event)

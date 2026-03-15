@@ -4,6 +4,10 @@
 
 A single extension that consolidates the best Emacs emulation for VS Code into one package — no need to install multiple extensions that overlap, conflict, or accumulate supply-chain risk.
 
+## Compatibility Note
+
+Emacs Unified retains the upstream `emacs-mcx` namespace for all command IDs and configuration keys. This means your existing `emacs-mcx.*` settings carry over seamlessly, but **Emacs Unified and vscode-emacs-mcx cannot be installed at the same time** — they will collide on command IDs and keybindings. Uninstall one before installing the other.
+
 ## Features
 
 - Emacs-like cursor movements and editing commands
@@ -204,6 +208,21 @@ It can also be set as per-language flag, for example:
 }
 ```
 
+### `emacs-mcx.commentColumn`
+
+Column at which `comment-dwim` (`M-;`) inserts end-of-line comments. Default is 32, matching Emacs' default `comment-column`.
+
+### `emacs-mcx.commentSyntax`
+
+Map of VS Code language ID to comment delimiter. Overrides or extends the built-in defaults (40+ languages). A plain string means a line comment; an object with `start`/`end` means a block comment.
+
+```json
+"emacs-mcx.commentSyntax": {
+  "python": "#",
+  "c": { "start": "/*", "end": "*/" }
+}
+```
+
 ### `emacs-mcx.debug.*`
 
 Configurations for debugging.
@@ -265,8 +284,8 @@ Alt key is mapped to the Meta prefix (`M`) by default and you can configure for 
 | `M-S-,` (`M-<` with US keyboard)             |                 | Move to the top of the buffer (beginning-of-buffer)                                                    |
 | `M-S-.` (`M->` with US keyboard)             |                 | Move to the end of the buffer (end-of-buffer)                                                          |
 | `M-g g` (`M-g M-g`)                          | ✓               | Read a number n and move point to the beginning of line number n (goto-line)                           |
-| `M-g n` (`M-g M-n`, `` C-x ` ``)             |                 | Jump to next error                                                                                     |
-| `M-g p` (`M-g M-p`)                          |                 | Jump to previous error                                                                                 |
+| `M-g n` (`M-g M-n`, `` C-x ` ``)             |                 | Next error/match: jump to next diagnostic, or next search result if none (next-error)                  |
+| `M-g p` (`M-g M-p`)                          |                 | Previous error/match: jump to previous diagnostic, or previous search result if none (previous-error)  |
 | `C-l`                                        |                 | Center screen on current line (recenter-top-bottom)                                                    |
 
 ### Search Commands
@@ -286,36 +305,36 @@ Alt key is mapped to the Meta prefix (`M`) by default and you can configure for 
 
 ### Edit Commands
 
-| Command                                          | Prefix argument | Desc                                                                 |
-| ------------------------------------------------ | --------------- | -------------------------------------------------------------------- |
-| `C-d`                                            | ✓               | Delete right (DEL)                                                   |
-| `C-h`                                            | ✓               | Delete left (BACKSPACE)                                              |
-| `M-\`                                            | ✓               | Delete spaces and tabs around point (delete-horizontal-space)        |
-| `C-x C-o`                                        |                 | Delete blank lines around (delete-blank-lines)                       |
-| `C-t`                                            | ✓               | Transpose characters (transpose-chars)                               |
-| `C-x C-t`                                        | ✓               | Transpose lines (transpose-lines)                                    |
-| `M-S-6` (`M-^` with US keyboard)                 |                 | Join two lines cleanly (delete-indentation)                          |
-| `M-d`                                            | ✓               | Kill the next word (kill-word)                                       |
-| `M-Bksp`                                         | ✓               | Kill one word backwards (backward-kill-word)                         |
-| `M-z`                                            | ✓               | Kill up to and including the given character (zap-to-char)           |
-| `C-k`                                            | ✓               | Kill rest of line or one or more lines (kill-line)                   |
-| `C-S-Bksp`                                       |                 | Kill an entire line at once (kill-whole-line)                        |
-| `C-w`                                            |                 | Kill the region (kill-region)                                        |
-| `M-w`                                            |                 | Copy the region into the kill ring (kill-ring-save)                  |
-| `C-y`                                            | ✓               | Yank the last kill into the buffer (yank)                            |
-| `M-y`                                            | ✓               | Replace just-yanked text with earlier kill (yank-pop)                |
-| `C-c y`                                          |                 | Browse kill ring                                                     |
-| `C-o`                                            |                 | Open line                                                            |
-| `C-j`                                            | ✓               | New line                                                             |
-| `C-m`                                            | ✓               | New line                                                             |
-| `C-x h`                                          |                 | Select All                                                           |
-| `C-x u`, `C-/`, `C-S--` (`C-_` with US keyboard) |                 | Undo                                                                 |
-| `C-;`                                            |                 | Toggle line comment                                                  |
-| `M-;`                                            |                 | Toggle region comment                                                |
-| `C-M-\`                                          |                 | Format selection (indent-region), or format document if no selection |
-| `C-x C-l` (`M-l`)                                |                 | Convert to lower case                                                |
-| `C-x C-u` (`M-u`)                                |                 | Convert to upper case                                                |
-| `M-c`                                            |                 | Convert to title case                                                |
+| Command                                          | Prefix argument | Desc                                                                                                |
+| ------------------------------------------------ | --------------- | --------------------------------------------------------------------------------------------------- |
+| `C-d`                                            | ✓               | Delete right (DEL)                                                                                  |
+| `C-h`                                            | ✓               | Delete left (BACKSPACE)                                                                             |
+| `M-\`                                            | ✓               | Delete spaces and tabs around point (delete-horizontal-space)                                       |
+| `C-x C-o`                                        |                 | Delete blank lines around (delete-blank-lines)                                                      |
+| `C-t`                                            | ✓               | Transpose characters (transpose-chars)                                                              |
+| `C-x C-t`                                        | ✓               | Transpose lines (transpose-lines)                                                                   |
+| `M-S-6` (`M-^` with US keyboard)                 |                 | Join two lines cleanly (delete-indentation)                                                         |
+| `M-d`                                            | ✓               | Kill the next word (kill-word)                                                                      |
+| `M-Bksp`                                         | ✓               | Kill one word backwards (backward-kill-word)                                                        |
+| `M-z`                                            | ✓               | Kill up to and including the given character (zap-to-char)                                          |
+| `C-k`                                            | ✓               | Kill rest of line or one or more lines (kill-line)                                                  |
+| `C-S-Bksp`                                       |                 | Kill an entire line at once (kill-whole-line)                                                       |
+| `C-w`                                            |                 | Kill the region (kill-region)                                                                       |
+| `M-w`                                            |                 | Copy the region into the kill ring (kill-ring-save)                                                 |
+| `C-y`                                            | ✓               | Yank the last kill into the buffer (yank)                                                           |
+| `M-y`                                            | ✓               | Replace just-yanked text with earlier kill (yank-pop)                                               |
+| `C-c y`                                          |                 | Browse kill ring                                                                                    |
+| `C-o`                                            |                 | Open line                                                                                           |
+| `C-j`                                            | ✓               | New line                                                                                            |
+| `C-m`                                            | ✓               | New line                                                                                            |
+| `C-x h`                                          |                 | Select All                                                                                          |
+| `C-x u`, `C-/`, `C-S--` (`C-_` with US keyboard) |                 | Undo                                                                                                |
+| `C-;`                                            |                 | Toggle line comment                                                                                 |
+| `M-;`                                            |                 | Comment-dwim: toggle region comment, insert/align end-of-line comment, or realign comment-only line |
+| `C-M-\`                                          |                 | Format selection (indent-region), or format document if no selection                                |
+| `C-x C-l` (`M-l`)                                |                 | Convert to lower case                                                                               |
+| `C-x C-u` (`M-u`)                                |                 | Convert to upper case                                                                               |
+| `M-c`                                            |                 | Convert to title case                                                                               |
 
 ### Mark Commands
 
@@ -399,7 +418,7 @@ See [this page](https://www.gnu.org/software/emacs/manual/html_node/emacs/Text-R
 
 ### Dired (File Browser)
 
-Open dired with `C-x C-d` (or run the command `extension.dired.open`). Dired shows a directory listing similar to Emacs dired mode.
+Open dired with `C-x d` (or run the command `extension.dired.open`). Dired shows a directory listing similar to Emacs dired mode.
 
 | Command | Desc                          |
 | ------- | ----------------------------- |
