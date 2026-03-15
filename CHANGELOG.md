@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.2.5
+
+### Changed
+
+- **Docs** — clarified Awesome Emacs Keymap name and marketplace link in compatibility note, updated CONTRIBUTING.md, README keybinding docs
+
 ## 1.2.4
 
 ### Changed
