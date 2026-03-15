@@ -8355,7 +8355,8 @@
     "mocha": {
       "diff": "^8.0.3",
       "serialize-javascript": "^7.0.3"
-    }
+    },
+    "flatted": "^3.4.1"
   },
   "dependencies": {
     "paredit-ts": "^1.0.0"
