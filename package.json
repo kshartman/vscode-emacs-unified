@@ -8322,7 +8322,7 @@
     "@types/mocha": "^10.0.10",
     "@types/node": "^24.12.0",
     "@types/sinon": "^21.0.0",
-    "@types/vscode": "^1.110.0",
+    "@types/vscode": "^1.93.0",
     "@types/webpack-env": "^1.18.8",
     "@vscode/test-cli": "^0.0.12",
     "@vscode/test-electron": "^2.5.2",
