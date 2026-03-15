@@ -8359,6 +8359,6 @@
     "flatted": "^3.4.1"
   },
   "dependencies": {
-    "paredit-ts": "^1.0.0"
+    "paredit-ts": "^1.0.1"
   }
 }
