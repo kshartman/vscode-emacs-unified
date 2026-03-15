@@ -9,6 +9,10 @@
 
 - [ ] **ISSUE-2**: `copy-to-register` joins multi-cursor selections into one string instead of storing them separately (like kill-yank does)
 
+## Upstream Watch
+
+- [ ] **Cherry-pick PR #2798**: `cycle-spacing` (M-SPC) — three-phase whitespace cycling (one-space → delete-all → restore). Draft by whitphx. Check status at session start: `gh pr view 2798 --repo whitphx/vscode-emacs-mcx`
+
 ## Future
 
 - [ ] Consider esbuild over webpack for faster builds

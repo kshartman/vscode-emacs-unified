@@ -1,84 +1,22 @@
-name: Test and Build
+name: Lint and Build
 
 on:
   push:
-    branches: ["main"]
-    tags: ["v*"]
+    branches: ["master"]
   pull_request:
-    branches: ["main"]
+    branches: ["master"]
 
 permissions: {}
 
 jobs:
-  set-build-info:
+  lint-and-build:
     runs-on: ubuntu-latest
-    outputs:
-      branch: ${{ steps.build-info.outputs.branch }}
-      tag: ${{ steps.build-info.outputs.tag }}
-      trigger-sha: ${{ steps.build-info.outputs.trigger-sha }}
-      head-sha: ${{ steps.build-info.outputs.head-sha }}
-      pr-number: ${{ steps.build-info.outputs.pr-number }}
-    steps:
-      - name: Save build info (pull_request)
-        if: github.event_name == 'pull_request'
-        run: |
-          echo "${{ github.event.pull_request.head.ref }}" > branch
-          echo "" > tag
-          echo "${{ github.event.pull_request.head.sha }}" > head-sha
-          echo "${{ github.sha }}" > trigger-sha
-          echo "${{ github.event.pull_request.number }}" > pr-number
-      - name: Save build info (push, branch)
-        if: github.event_name == 'push' && github.ref_type == 'branch'
-        run: |
-          echo "${{ github.ref_name }}" > branch
-          echo "" > tag
-          echo "${{ github.sha }}" > head-sha
-          echo "${{ github.sha }}" > trigger-sha
-          echo "" > pr-number
-      - name: Save build info (push, tag)
-        if: github.event_name == 'push' && github.ref_type == 'tag'
-        run: |
-          echo "" > branch
-          echo "${{ github.ref_name }}" > tag
-          echo "${{ github.sha }}" > head-sha
-          echo "${{ github.sha }}" > trigger-sha
-          echo "" > pr-number
-      - name: Output build info
-        id: build-info
-        run: |
-          echo "branch=$(cat branch)" >> $GITHUB_OUTPUT
-          echo "tag=$(cat tag)" >> $GITHUB_OUTPUT
-          echo "trigger-sha=$(cat trigger-sha)" >> $GITHUB_OUTPUT
-          echo "head-sha=$(cat head-sha)" >> $GITHUB_OUTPUT
-          echo "pr-number=$(cat pr-number)" >> $GITHUB_OUTPUT
-      - name: Upload build info
-        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
-        with:
-          name: build-info
-          path: |
-            branch
-            tag
-            head-sha
-            trigger-sha
-            pr-number
-
-  test:
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [macos-latest, ubuntu-latest, windows-latest]
-        type: ["native"]
-        include:
-          - os: ubuntu-latest
-            type: "web"
-    runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-        with:
-          submodules: recursive
+        uses: actions/checkout@v4
+
       - name: Install Node.js
-        uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
+        uses: actions/setup-node@v4
         with:
           node-version-file: .nvmrc
           cache: "npm"
@@ -86,89 +24,22 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: ESLint & Prettier
-        run: |
-          npm run check:eslint
-          npm run check:prettier
+      - name: ESLint
+        run: npm run check:eslint
 
-      - name: Test keybinding generator
+      - name: Prettier
+        run: npm run check:prettier
+
+      - name: Keybinding generator tests
         run: npm run test-gen-keys
 
       - name: Check keybinding diff
         run: |
           npm run gen-keys
-          git diff --exit-code || (echo "You have to run 'npm run gen-keys' and commit the updated package.json" && exit -1)
+          git diff --exit-code || (echo "Run 'npm run gen-keys' and commit the updated package.json" && exit 1)
 
-      - name: Build for test
-        run: npm run webpack
-        if: matrix.type == 'native'
+      - name: Build
+        run: npm run webpack:prod
 
-      - name: Test
-        run: xvfb-run -a npm test
-        if: runner.os == 'Linux' && matrix.type == 'native'
-      - name: Test
-        run: npm test
-        if: runner.os != 'Linux' && matrix.type == 'native'
-
-      - name: Test Web
-        run: npm run test:web -- --headless
-        if: matrix.type == 'web'
-
-  build:
-    needs: [test, set-build-info]
-    runs-on: ubuntu-latest
-    permissions:
-      id-token: write
-      contents: read
-      attestations: write
-    steps:
-      - name: Checkout
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-        with:
-          submodules: recursive
-      - name: Install Node.js
-        uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
-        with:
-          node-version-file: .nvmrc
-          cache: "npm"
-
-      - name: Install dependencies
-        run: npm ci
-
-      # Ref: https://github.com/redhat-developer/vscode-yaml/blob/89c53763249932454b766d09e7aa9035da7fb5b8/.github/workflows/CI.yaml#L48-L61
-      - name: Build the vsix package on Linux
-        id: build
-        run: |
-          if [ $IS_RELEASE = true ]; then
-            VERSION=$(node -p "require('./package.json').version")
-          else
-            VERSION=${{ github.sha }}
-          fi
-          if [ ${IS_PRE_RELEASE} = true ]; then
-            FLAGS="--pre-release"
-          else
-            FLAGS=""
-          fi
-          OUTPUT_FILE_NAME=emacs-mcx-${VERSION}-${GITHUB_RUN_ID}-${GITHUB_RUN_NUMBER}.vsix
-
-          npm exec -- vsce package -o ${OUTPUT_FILE_NAME} ${FLAGS}
-
-          echo "filename=${OUTPUT_FILE_NAME}" >> $GITHUB_OUTPUT
-        env:
-          IS_RELEASE: ${{ startsWith(github.ref, 'refs/tags/v') }}
-          IS_PRE_RELEASE: ${{ startsWith(github.ref, 'refs/tags/v') && endsWith(github.ref, '-pre') }}
-
-      - name: Generate artifact attestation
-        uses: actions/attest-build-provenance@a2bbfa25375fe432b6a289bc6b6cd05ecd0c4c32 # v4.1.0
-        with:
-          subject-path: ${{ steps.build.outputs.filename }}
-        # This step may fail when the PR is created by an external contributor and the CI is run in their scope.
-        # We can ignore such failures because the following jobs such as E2E-testing in the post-build workflow don't necessarily need the attestation,
-        # while the verification is done when publishing the artifact.
-        continue-on-error: true
-
-      - name: Upload the vsix built on Linux
-        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
-        with:
-          path: ${{ steps.build.outputs.filename }}
-          name: emacs-mcx
+      - name: Build web
+        run: npm run package-web
