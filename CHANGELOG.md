@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.2.4
+
+### Changed
+
+- **Dependencies** — bump `paredit-ts` to 1.0.1, `webpack-cli` to 7.0.0, `lint-staged` to 16.4.0
+- **CI** — bump `actions/checkout` and `actions/setup-node` to v6 (fixes Node.js 20 deprecation)
+
 ## 1.2.3
 
 ### Changed

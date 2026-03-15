@@ -2,7 +2,7 @@
   "name": "emacs-unified",
   "displayName": "Emacs Unified",
   "description": "Consolidated Emacs emulation for VS Code: keybindings, kill-ring, mark-mode, paredit, dired, and more.",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "publisher": "kshartman",
   "repository": {
     "type": "git",
