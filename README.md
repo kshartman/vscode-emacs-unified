@@ -6,7 +6,7 @@ A single extension that consolidates the best Emacs emulation for VS Code into o
 
 ## Compatibility Note
 
-Emacs Unified retains the upstream `emacs-mcx` namespace for all command IDs and configuration keys. This means your existing `emacs-mcx.*` settings carry over seamlessly, but **Emacs Unified and vscode-emacs-mcx cannot be installed at the same time** — they will collide on command IDs and keybindings. Uninstall one before installing the other.
+Emacs Unified retains the upstream `emacs-mcx` namespace ([Awesome Emacs Keymap](https://marketplace.visualstudio.com/items?itemName=tuttieee.emacs-mcx)) for all command IDs and configuration keys. This means your existing `emacs-mcx.*` settings carry over seamlessly, but **Emacs Unified and Awesome Emacs Keymap cannot be installed at the same time** — they will collide on command IDs and keybindings. Uninstall one before installing the other.
 
 ## Features
 
