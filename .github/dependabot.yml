@@ -6,6 +6,8 @@ updates:
       interval: daily
     open-pull-requests-limit: 10
     ignore:
+      - dependency-name: "@types/vscode"
+        # Must match engines.vscode (^1.93.0) — vsce rejects newer types
       - dependency-name: "@types/node"
         # This allows updates within the current major (e.g., 24.x.x)
         # but ignores 25.x.x, 26.x.x, etc.
