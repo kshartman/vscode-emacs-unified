@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.2.3
+
+### Changed
+
+- **CI cleanup** — removed upstream workflows (changesets, post-build, update-keybindings), simplified to lint + build only
+- **Auto-publish** — new GitHub Actions workflow publishes to VS Code Marketplace on release
+- **Security** — patched `flatted` dev dependency vulnerability via npm override
+
 ## 1.2.2
 
 ### Fixed
