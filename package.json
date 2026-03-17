@@ -8,6 +8,10 @@
     "type": "git",
     "url": "https://github.com/kshartman/vscode-emacs-unified"
   },
+  "homepage": "https://github.com/kshartman/vscode-emacs-unified#readme",
+  "bugs": {
+    "url": "https://github.com/kshartman/vscode-emacs-unified/issues"
+  },
   "engines": {
     "vscode": "^1.93.0"
   },
@@ -40,7 +44,7 @@
   "contributes": {
     "configuration": {
       "type": "object",
-      "title": "Awesome Emacs Keymap (emacs-mcx) configuration",
+      "title": "Emacs Unified (emacs-mcx) configuration",
       "properties": {
         "emacs-mcx.killRingMax": {
           "type": "number",
@@ -8309,14 +8313,9 @@
     "watch-web": "webpack --watch --config ./build/web-extension.webpack.config.js",
     "package-web": "webpack --mode production --devtool hidden-source-map --config ./build/web-extension.webpack.config.js",
     "prepare": "husky",
-    "cspell": "cspell lint --no-progress --cache --config ./cspell.json .",
-    "changeset": "changeset",
-    "changeset:release": "changeset tag && git push --follow-tags"
+    "cspell": "cspell lint --no-progress --cache --config ./cspell.json ."
   },
   "devDependencies": {
-    "@changesets/changelog-github": "^0.6.0",
-    "@changesets/cli": "^2.30.0",
-    "@changesets/write": "^0.4.0",
     "@eslint/js": "^10.0.1",
     "@types/glob": "^9.0.0",
     "@types/mocha": "^10.0.10",

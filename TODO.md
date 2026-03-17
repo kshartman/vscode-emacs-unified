@@ -8,6 +8,8 @@
 ## Feature Gaps
 
 - [ ] **ISSUE-2**: `copy-to-register` joins multi-cursor selections into one string instead of storing them separately (like kill-yank does)
+- [ ] **ISSUE-4**: Rectangle commands differ from Emacs on empty selections
+- [ ] **ISSUE-5**: `C-u M-;` should kill the comment on the line (comment-kill) — currently prefix argument is ignored
 
 ## Upstream Watch
 
@@ -16,4 +18,4 @@
 ## Future
 
 - [ ] Consider esbuild over webpack for faster builds
-- [ ] Explore `noImplicitReturns` and `noUnusedParameters` stricter TypeScript settings
+- [ ] Explore `noUnusedParameters` stricter TypeScript setting (`noImplicitReturns` already enabled)

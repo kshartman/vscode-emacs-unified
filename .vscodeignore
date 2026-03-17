@@ -3,7 +3,6 @@
 .vscode-test-web
 .github
 .husky
-.changeset
 .gitmodules
 node_modules
 out/
@@ -18,7 +17,6 @@ vendor/
 cspell.json
 eslint.config.mjs
 lint-staged.config.js
-AGENTS.md
 CLAUDE.md
 .claude
 .git-blame-ignore-revs
