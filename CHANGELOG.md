@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.2.7
+
+### Fixed
+
+- **Settings UI title** — changed from "Awesome Emacs Keymap" to "Emacs Unified" in VS Code settings
+- **Spellcheck CI** — workflow now triggers on `master` branch (was `main`, never ran)
+- **Removed changeset deps** — dead `@changesets/*` packages and scripts removed
+- **Added homepage/bugs links** — marketplace now links to GitHub issues
+- **LICENSE** — updated stale file references, icon license corrected to MIT
+- **Docs consistency** — CLAUDE.md, TODO.md, .vscodeignore all updated
+
 ## 1.2.6
 
 ### Changed
