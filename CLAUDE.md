@@ -10,7 +10,7 @@ The extension provides comprehensive Emacs keybindings and operations: multi-cur
 
 ## Project Goals
 
-- **Type safety**: Strict TypeScript — no `any` types where avoidable, `noImplicitReturns`, `noUnusedParameters`
+- **Type safety**: Strict TypeScript — no `any` types where avoidable (future: enable `noImplicitReturns`, `noUnusedParameters`)
 - **Minimal dependencies**: Zero runtime npm deps beyond `paredit-ts`. No supply chain duplication. All new/modified code should avoid introducing dependencies
 - **Test coverage**: All new and modified code gets tests. Integration tests via @vscode/test-cli for VS Code API interactions, vitest for pure logic
 - **Emacs fidelity**: Correct Emacs behavior out of the box, especially for key languages (C, C++, C#, bash, JS, TS, JSON, YAML, Python). Default to VS Code-like behavior where Emacs and VS Code diverge; offer Emacs-like variants behind configuration options
