@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.2.6
+
+### Changed
+
+- **New icon** — distinct dark teal/gold design, replaces upstream GNU Emacs icon
+- **Rewritten README** — leads with fork relationship, documents only new/changed features, links to upstream for inherited reference
+- **Updated description** — explicitly identifies as a fork of Awesome Emacs Keymap
+
 ## 1.2.5
 
 ### Changed
