@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.2.8
+
+### Changed
+
+- **Publish workflow** — VSIX now attached to GitHub releases for direct install; marketplace publish is best-effort (handles locked state gracefully)
+
 ## 1.2.7
 
 ### Fixed
