@@ -13,7 +13,7 @@
 
 ## Upstream Watch
 
-- [ ] **Cherry-pick PR #2798**: `cycle-spacing` (M-SPC) — three-phase whitespace cycling (one-space → delete-all → restore). Draft by whitphx. Check status at session start: `gh pr view 2798 --repo whitphx/vscode-emacs-mcx`
+- [ ] **Watch PR #2804**: `just-one-space` (M-SPC) — delete spaces/tabs around point, leave one. By whitphx. Low priority — `M-\` (delete-horizontal-space) covers the use case and `Alt+Space` is stolen by Windows. Check: `gh pr view 2804 --repo whitphx/vscode-emacs-mcx`
 
 ## Future
 
