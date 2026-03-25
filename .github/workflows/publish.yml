@@ -23,6 +23,26 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: ESLint
+        run: npm run check:eslint
+
+      - name: Prettier
+        run: npm run check:prettier
+
+      - name: Keybinding generator tests
+        run: npm run test-gen-keys
+
+      - name: Check keybinding diff
+        run: |
+          npm run gen-keys
+          git diff --exit-code || (echo "Run 'npm run gen-keys' and commit the updated package.json" && exit 1)
+
+      - name: Build
+        run: npm run webpack:prod
+
+      - name: Build web
+        run: npm run package-web
+
       - name: Package VSIX
         run: npx @vscode/vsce package -o emacs-unified.vsix
 
