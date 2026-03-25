@@ -36,3 +36,7 @@ jobs:
         env:
           VSCE_PAT: ${{ secrets.VSCE_PAT }}
         continue-on-error: true
+
+      - name: Publish to Open VSX
+        run: npx ovsx publish emacs-unified.vsix -p ${{ secrets.OVSX_PAT }}
+        continue-on-error: true

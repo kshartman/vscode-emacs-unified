@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.2.9
+
+### Added
+
+- **Open VSX publishing** — extension now published to [Open VSX](https://open-vsx.org/extension/kshartman/emacs-unified) in addition to VS Code Marketplace and GitHub Releases
+- **README badges** — version badges for VS Code Marketplace, Open VSX, and GitHub Release
+- **Install section** — added install options (marketplace, Open VSX, VSIX) to README
+
 ## 1.2.8
 
 ### Changed

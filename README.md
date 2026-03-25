@@ -1,5 +1,9 @@
 # Emacs Unified
 
+[![VS Code Marketplace](https://img.shields.io/visual-studio-marketplace/v/kshartman.emacs-unified?label=VS%20Code%20Marketplace&logo=visualstudiocode)](https://marketplace.visualstudio.com/items?itemName=kshartman.emacs-unified)
+[![Open VSX](https://img.shields.io/open-vsx/v/kshartman/emacs-unified?label=Open%20VSX&logo=eclipse)](https://open-vsx.org/extension/kshartman/emacs-unified)
+[![GitHub Release](https://img.shields.io/github/v/release/kshartman/vscode-emacs-unified?label=GitHub%20Release&logo=github)](https://github.com/kshartman/vscode-emacs-unified/releases/latest)
+
 **A consolidation fork of [Awesome Emacs Keymap](https://marketplace.visualstudio.com/items?itemName=tuttieee.emacs-mcx) (vscode-emacs-mcx) that adds new commands and absorbs related extensions into a single package.**
 
 Emacs Unified is a fork of [vscode-emacs-mcx](https://github.com/whitphx/vscode-emacs-mcx) by Yuichiro Tsuchiya. It inherits all of the upstream functionality and adds new features, bug fixes, and absorbed extensions that were previously separate installs.
@@ -112,6 +116,12 @@ This extension is built on the work of several authors:
 - **[Emacs Keymap](https://github.com/hiro-sun/vscode-emacs)** by hiro-sun — the original VS Code Emacs extension
 
 See [LICENSE](./LICENSE) for full details.
+
+## Install
+
+- **VS Code Marketplace**: Search "Emacs Unified" in Extensions, or `code --install-extension kshartman.emacs-unified`
+- **Open VSX**: [open-vsx.org/extension/kshartman/emacs-unified](https://open-vsx.org/extension/kshartman/emacs-unified)
+- **GitHub Release** (VSIX): Download from [latest release](https://github.com/kshartman/vscode-emacs-unified/releases/latest) and `code --install-extension emacs-unified.vsix`
 
 ## Contributing
 

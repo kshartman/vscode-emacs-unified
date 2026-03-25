@@ -2,7 +2,7 @@
   "name": "emacs-unified",
   "displayName": "Emacs Unified",
   "description": "Fork of Awesome Emacs Keymap (vscode-emacs-mcx) with added comment-dwim, dired file browser, unified next-error, and paredit-ts.",
-  "version": "1.2.8",
+  "version": "1.2.9",
   "publisher": "kshartman",
   "repository": {
     "type": "git",
@@ -1336,16 +1336,6 @@
         "key": "escape escape escape",
         "command": "diffEditor.exitCompareMove",
         "when": "comparingMovedCode && config.emacs-mcx.useMetaPrefixEscape"
-      },
-      {
-        "key": "ctrl+g",
-        "command": "chat.models.action.clearSearchResults",
-        "when": "inModelsEditor && inModelsSearch && isLinux"
-      },
-      {
-        "key": "escape escape escape",
-        "command": "chat.models.action.clearSearchResults",
-        "when": "inModelsEditor && inModelsSearch && isLinux && config.emacs-mcx.useMetaPrefixEscape"
       },
       {
         "key": "enter",
