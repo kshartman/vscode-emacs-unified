@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.2.10
+
+### Added
+
+- **Complete keybinding reference** — all keybindings documented in collapsible sections in README
+
 ## 1.2.9
 
 ### Added

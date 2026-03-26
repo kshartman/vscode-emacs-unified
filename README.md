@@ -43,19 +43,7 @@ Emacs-like `next-error` / `previous-error` that checks for diagnostics first, th
 
 ### Dired file browser
 
-Browse and manage files without leaving VS Code. Open with `C-x d`.
-
-| Command         | Desc                         |
-| --------------- | ---------------------------- |
-| `RET`           | Open file or enter directory |
-| `^`             | Go up to parent directory    |
-| `.`             | Toggle dot files             |
-| `g`             | Refresh                      |
-| `m` / `u`       | Mark / unmark                |
-| `+`             | Create directory             |
-| `C-x f`         | Create file                  |
-| `R` / `C` / `D` | Rename / copy / delete       |
-| `q`             | Close dired                  |
+Browse and manage files without leaving VS Code. Open with `C-x d`. See the keybinding reference below for all dired commands.
 
 ### Additional keybindings
 
@@ -95,9 +83,186 @@ Map of VS Code language ID to comment delimiter. Overrides or extends the built-
 }
 ```
 
-## Inherited settings and keybindings
+## Complete keybinding reference
 
-All settings and keybindings from [Awesome Emacs Keymap](https://github.com/whitphx/vscode-emacs-mcx#extension-settings) are supported. See the [upstream README](https://github.com/whitphx/vscode-emacs-mcx#readme) for the complete reference of inherited commands, keybinding tables, configuration options, `when` clause contexts, and the prefix argument API.
+All keybindings from the upstream [Awesome Emacs Keymap](https://github.com/whitphx/vscode-emacs-mcx) are included plus the additions listed above. The `Meta` key is `Alt` by default; configure via `emacs-mcx.useMetaPrefixEscape`, `emacs-mcx.useMetaPrefixCtrlLeftBracket`, or `emacs-mcx.useMetaPrefixMacCmd`.
+
+<details>
+<summary><strong>Movement</strong></summary>
+
+| Key                      | Command                                                        | Prefix arg |
+| ------------------------ | -------------------------------------------------------------- | :--------: |
+| `C-f` / `C-b`            | forward-char / backward-char                                   |     ✓      |
+| `C-n` / `C-p`            | next-line / previous-line                                      |     ✓      |
+| `C-a` / `C-e`            | beginning-of-line / end-of-line                                |     ✓      |
+| `M-f` / `M-b`            | forward-word / backward-word                                   |     ✓      |
+| `C-<right>` / `C-<left>` | right-word / left-word                                         |     ✓      |
+| `M-m`                    | back-to-indentation                                            |            |
+| `C-v` / `M-v`            | scroll-up / scroll-down                                        |     ✓      |
+| `M-{` / `M-}`            | backward-paragraph / forward-paragraph                         |     ✓      |
+| `M-<` / `M->`            | beginning-of-buffer / end-of-buffer                            |            |
+| `M-g g`                  | goto-line                                                      |     ✓      |
+| `M-g n` / `M-g p`        | next-error / previous-error (diagnostics, then search results) |            |
+| `C-l`                    | recenter-top-bottom                                            |            |
+
+</details>
+
+<details>
+<summary><strong>Search</strong></summary>
+
+| Key               | Command                                          |
+| ----------------- | ------------------------------------------------ |
+| `C-s` / `C-r`     | isearch-forward / isearch-backward               |
+| `C-M-s` / `C-M-r` | isearch-forward-regexp / isearch-backward-regexp |
+| `M-%`             | query-replace                                    |
+| `C-M-%`           | query-replace-regexp                             |
+| `C-M-n` / `C-M-p` | add selection to next/previous find match        |
+| `M-s o`           | Quick Search (like occur)                        |
+
+</details>
+
+<details>
+<summary><strong>Editing</strong></summary>
+
+| Key                   | Command                                | Prefix arg |
+| --------------------- | -------------------------------------- | :--------: |
+| `C-d` / `C-h`         | delete forward / backward              |     ✓      |
+| `M-\`                 | delete-horizontal-space                |     ✓      |
+| `C-x C-o`             | delete-blank-lines                     |            |
+| `C-t` / `C-x C-t`     | transpose-chars / transpose-lines      |     ✓      |
+| `M-^`                 | delete-indentation                     |            |
+| `M-d` / `M-Bksp`      | kill-word / backward-kill-word         |     ✓      |
+| `M-z`                 | zap-to-char                            |     ✓      |
+| `C-k`                 | kill-line                              |     ✓      |
+| `C-S-Bksp`            | kill-whole-line                        |            |
+| `C-w`                 | kill-region                            |            |
+| `M-w`                 | kill-ring-save                         |            |
+| `C-y`                 | yank                                   |     ✓      |
+| `M-y`                 | yank-pop                               |     ✓      |
+| `C-c y`               | browse kill ring                       |            |
+| `C-o` / `C-j` / `C-m` | open-line / newline                    |     ✓      |
+| `C-x h`               | select all                             |            |
+| `C-/` / `C-_`         | undo                                   |            |
+| `C-;`                 | toggle line comment                    |            |
+| `M-;`                 | comment-dwim                           |            |
+| `C-M-\`               | indent-region / format document        |            |
+| `M-l` / `M-u` / `M-c` | lowercase / uppercase / titlecase word |            |
+
+</details>
+
+<details>
+<summary><strong>Mark and region</strong></summary>
+
+| Key           | Command                            |
+| ------------- | ---------------------------------- |
+| `C-SPC`       | set-mark-command                   |
+| `C-SPC C-SPC` | set mark, push to ring, deactivate |
+| `C-u C-SPC`   | pop mark ring                      |
+| `C-x C-x`     | exchange-point-and-mark            |
+
+</details>
+
+<details>
+<summary><strong>Sexp / ParEdit</strong></summary>
+
+| Key                  | Command                        | Prefix arg |
+| -------------------- | ------------------------------ | :--------: |
+| `C-M-f` / `C-M-b`    | forward-sexp / backward-sexp   |     ✓      |
+| `C-M-u` / `C-M-d`    | backward-up-list / down-list   |            |
+| `C-M-@`              | mark-sexp                      |     ✓      |
+| `C-M-k` / `C-M-Bksp` | kill-sexp / backward-kill-sexp |     ✓      |
+| `C-S-k`              | paredit-kill                   |     ✓      |
+
+Powered by [paredit-ts](https://github.com/kshartman/paredit-ts).
+
+</details>
+
+<details>
+<summary><strong>Registers and rectangles</strong></summary>
+
+| Key             | Command                    |
+| --------------- | -------------------------- |
+| `C-x r s` _r_   | copy-to-register           |
+| `C-x r i` _r_   | insert-register            |
+| `C-x r SPC` _r_ | point-to-register          |
+| `C-x r j` _r_   | jump-to-register           |
+| `C-x r k`       | kill-rectangle             |
+| `C-x r M-w`     | copy-rectangle-as-kill     |
+| `C-x r d`       | delete-rectangle           |
+| `C-x r y`       | yank-rectangle             |
+| `C-x r o`       | open-rectangle             |
+| `C-x r c`       | clear-rectangle            |
+| `C-x r t`       | string-rectangle           |
+| `C-x r r` _r_   | copy-rectangle-to-register |
+| `C-x SPC`       | rectangle-mark-mode        |
+
+</details>
+
+<details>
+<summary><strong>Files, buffers, and windows</strong></summary>
+
+| Key                      | Command                       |
+| ------------------------ | ----------------------------- |
+| `C-x C-f`                | find-file (Quick Open)        |
+| `C-x C-s`                | save-buffer                   |
+| `C-x C-w`                | write-file (Save As)          |
+| `C-x s`                  | save-some-buffers             |
+| `C-x C-n`                | new window                    |
+| `C-x b`                  | switch-to-buffer              |
+| `C-x C-b`                | list-buffers (MRU)            |
+| `C-x k`                  | kill-buffer                   |
+| `C-x 0`                  | delete-window                 |
+| `C-x 1`                  | delete-other-windows          |
+| `C-x 2` / `C-x 3`        | split below / right           |
+| `C-x 4`                  | toggle split layout           |
+| `C-x o`                  | other-window                  |
+| `C-x LEFT` / `C-x RIGHT` | previous-buffer / next-buffer |
+
+</details>
+
+<details>
+<summary><strong>Dired (file browser)</strong></summary>
+
+Open with `C-x d`.
+
+| Key             | Command                      |
+| --------------- | ---------------------------- |
+| `RET`           | Open file or enter directory |
+| `^`             | Go up to parent directory    |
+| `.`             | Toggle dot files             |
+| `g`             | Refresh                      |
+| `m` / `u`       | Mark / unmark                |
+| `+`             | Create directory             |
+| `C-x f`         | Create file                  |
+| `R` / `C` / `D` | Rename / copy / delete       |
+| `q`             | Close dired                  |
+
+</details>
+
+<details>
+<summary><strong>Other</strong></summary>
+
+| Key             | Command            |
+| --------------- | ------------------ |
+| `C-g` / `ESC`   | quit               |
+| `M-x`           | command palette    |
+| `C-M-SPC`       | toggle sidebar     |
+| `C-x z`         | toggle Zen Mode    |
+| `C-x C-c`       | close window       |
+| `C-u`           | universal-argument |
+| `M-<digit>`     | digit-argument     |
+| `M--`           | negative-argument  |
+| `M-.`           | find definitions   |
+| `M-,`           | go back            |
+| `C-M-,`         | go forward         |
+| `M-?`           | find references    |
+| `C-M-i` / `M-/` | trigger suggest    |
+
+</details>
+
+## Settings reference
+
+Most `emacs-mcx.*` settings from [Awesome Emacs Keymap](https://github.com/whitphx/vscode-emacs-mcx#extension-settings) are supported. See the [upstream documentation](https://github.com/whitphx/vscode-emacs-mcx#extension-settings) for inherited configuration options, `when` clause contexts, and the prefix argument API.
 
 ### Dired settings
 
