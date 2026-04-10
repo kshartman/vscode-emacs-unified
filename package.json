@@ -2,7 +2,7 @@
   "name": "emacs-unified",
   "displayName": "Emacs Unified",
   "description": "Fork of Awesome Emacs Keymap (vscode-emacs-mcx) with added comment-dwim, dired file browser, unified next-error, and paredit-ts.",
-  "version": "1.2.10",
+  "version": "1.2.11",
   "publisher": "kshartman",
   "repository": {
     "type": "git",

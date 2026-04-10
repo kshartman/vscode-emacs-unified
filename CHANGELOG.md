@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.2.11
+
+### Fixed
+
+- Removed stale Open VSX badge and replaced marketplace badge with static version
+- Resolved all npm audit vulnerabilities via dependency overrides (0 audit issues)
+
 ## 1.2.10
 
 ### Added
