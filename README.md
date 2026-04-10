@@ -1,7 +1,6 @@
 # Emacs Unified
 
-[![VS Code Marketplace](https://img.shields.io/visual-studio-marketplace/v/kshartman.emacs-unified?label=VS%20Code%20Marketplace&logo=visualstudiocode)](https://marketplace.visualstudio.com/items?itemName=kshartman.emacs-unified)
-[![Open VSX](https://img.shields.io/open-vsx/v/kshartman/emacs-unified?label=Open%20VSX&logo=eclipse)](https://open-vsx.org/extension/kshartman/emacs-unified)
+[![VS Code Marketplace](https://img.shields.io/badge/VS%20Code%20Marketplace-kshartman.emacs--unified-blue?logo=visualstudiocode)](https://marketplace.visualstudio.com/items?itemName=kshartman.emacs-unified)
 [![GitHub Release](https://img.shields.io/github/v/release/kshartman/vscode-emacs-unified?label=GitHub%20Release&logo=github)](https://github.com/kshartman/vscode-emacs-unified/releases/latest)
 
 **A consolidation fork of [Awesome Emacs Keymap](https://marketplace.visualstudio.com/items?itemName=tuttieee.emacs-mcx) (vscode-emacs-mcx) that adds new commands and absorbs related extensions into a single package.**
