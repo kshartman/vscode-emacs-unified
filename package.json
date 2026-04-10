@@ -8353,9 +8353,13 @@
   "overrides": {
     "mocha": {
       "diff": "^8.0.3",
-      "serialize-javascript": "^7.0.3"
+      "serialize-javascript": "^7.0.5"
     },
-    "flatted": "^3.4.1"
+    "flatted": "^3.4.2",
+    "lodash": "^4.18.1",
+    "vite": "^8.0.8",
+    "picomatch": "^4.0.4",
+    "brace-expansion": "^1.1.13"
   },
   "dependencies": {
     "paredit-ts": "^1.0.1"
