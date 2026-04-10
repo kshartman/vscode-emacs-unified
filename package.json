@@ -8346,7 +8346,7 @@
     "tsx": "^4.21.0",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.57.2",
-    "vitest": "^4.1.0",
+    "vitest": "^4.1.4",
     "webpack": "^5.105.4",
     "webpack-cli": "^7.0.2"
   },
