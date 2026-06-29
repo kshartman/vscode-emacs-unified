@@ -284,7 +284,6 @@ See [LICENSE](./LICENSE) for full details.
 ## Install
 
 - **VS Code Marketplace**: Search "Emacs Unified" in Extensions, or `code --install-extension kshartman.emacs-unified`
-- **Open VSX**: [open-vsx.org/extension/kshartman/emacs-unified](https://open-vsx.org/extension/kshartman/emacs-unified)
 - **GitHub Release** (VSIX): Download from [latest release](https://github.com/kshartman/vscode-emacs-unified/releases/latest) and `code --install-extension emacs-unified.vsix`
 
 ## Contributing
