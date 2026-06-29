@@ -1,5 +1,27 @@
 # Changelog
 
+## 1.2.12
+
+### Changed
+
+- **BREAKING — dired settings namespaced.** `dired.ask_directory` → `emacs-mcx.dired.askDirectory` and `dired.fixed_window` → `emacs-mcx.dired.fixedWindow`, bringing them under the extension's `emacs-mcx.*` namespace (they were leaking into the global settings namespace). If you set either, re-add it under the new key.
+
+### Removed
+
+- **Open VSX** — removed the Open VSX install link from the README and the Open VSX publish step from CI. The extension was never actually published there (namespace never created), so the publish step silently failed on every release.
+
+### Fixed
+
+- Re-resolved all npm audit vulnerabilities (0 issues) after new advisories accumulated in dev/transitive dependencies.
+- Fixed `npm run check:eslint` crashing (`brace_expansion_1.expand is not a function`) by removing the global `brace-expansion` override, which forced a 1.x export shape incompatible with ESLint 10's bundled minimatch.
+- **`newLine` with a prefix argument** — replaced an ad-hoc 33 ms delay with a wait for the document to settle, so language `OnEnter` auto-indent (e.g. JSDoc `*` continuation) is captured reliably (cherry-picked from upstream vscode-emacs-mcx #2898).
+
+### Tests / tooling
+
+- Fixed the integration-test `package.json` validation failures: built-in commands woven in from the fetched default-keybindings set (`inlineChat.hideInput`, `inlineChat2.undo`) and the now-namespaced dired/tab configs are recognized as expected.
+- Fixed flaky kill-ring/yank integration tests. They drive VS Code's native clipboard paste — an inherently async OS-clipboard round-trip — so test clipboard writes now confirm before being read, and the clipboard suites use `retries: 2` to absorb the residual environmental flake. Also made the tests resilient to active-editor drift (upstream #2898).
+- Split the integration suite (`.vscode-test.mjs` `core`/`clipboard` labels): `npm run test:headless` runs unit tests plus the non-clipboard integration tests fully headless on xvfb (no windows, no flake); `npm run test:clipboard` runs the clipboard tests against a real clipboard via `scripts/run-integration-tests.sh` (WSLg `:0`).
+
 ## 1.2.11
 
 ### Fixed

@@ -41,10 +41,30 @@ Both run automatically via pre-commit hooks (husky + lint-staged).
 ## Tests
 
 ```shell
-npm test              # VS Code integration tests
-npm run test-gen-keys # keybinding generator unit tests (vitest)
-npm run test:web      # web extension tests
+npm run test-gen-keys  # unit tests (vitest): keybinding generator + pure logic, no VS Code
+npm run test:headless  # unit tests + non-clipboard integration tests, fully headless (xvfb)
+npm test               # full VS Code integration suite (core + clipboard labels)
+npm run test:core      # integration tests except the kill-ring/yank clipboard suites (headless)
+npm run test:clipboard # only the kill-ring/yank clipboard suites (see note)
+npm run test:web       # web extension tests
 ```
+
+The integration suite runs a real VS Code instance, so it needs a display. The
+kill-ring/yank tests additionally exercise VS Code's **native clipboard paste** —
+an async OS-clipboard round-trip that flakes without a real, stable clipboard.
+The suite is split (`core` / `clipboard` labels in `.vscode-test.mjs`) so the
+everyday path is fully headless and reliable:
+
+- **`test:core`** runs everything except the clipboard tests. It's stable under a
+  bare headless X server (`xvfb`), so **`test:headless` (unit + core) is the
+  windowless, always-green everyday command.**
+- **`test:clipboard`** runs the clipboard tests via
+  `scripts/run-integration-tests.sh`, which uses the WSLg display (`:0`) so they
+  hit the real Windows clipboard. They use mocha `retries: 2` to absorb residual
+  flake. Because they share the real clipboard and window focus, **leave the
+  mouse and keyboard alone while they run** (and VS Code windows will be visible).
+  Requires WSLg (recent WSL2 / Windows 11). On a native desktop OS the real
+  clipboard means `npm test` works directly with no special handling.
 
 ## Keybinding generation
 

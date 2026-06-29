@@ -1,6 +1,6 @@
 # Emacs Unified
 
-[![VS Code Marketplace](https://img.shields.io/badge/VS%20Code%20Marketplace-v1.2.11-blue?logo=visualstudiocode)](https://marketplace.visualstudio.com/items?itemName=kshartman.emacs-unified)
+[![VS Code Marketplace](https://img.shields.io/badge/VS%20Code%20Marketplace-v1.2.12-blue?logo=visualstudiocode)](https://marketplace.visualstudio.com/items?itemName=kshartman.emacs-unified)
 [![GitHub Release](https://img.shields.io/github/v/release/kshartman/vscode-emacs-unified?label=GitHub%20Release&logo=github)](https://github.com/kshartman/vscode-emacs-unified/releases/latest)
 
 **A consolidation fork of [Awesome Emacs Keymap](https://marketplace.visualstudio.com/items?itemName=tuttieee.emacs-mcx) (vscode-emacs-mcx) that adds new commands and absorbs related extensions into a single package.**
@@ -265,10 +265,10 @@ Most `emacs-mcx.*` settings from [Awesome Emacs Keymap](https://github.com/whitp
 
 ### Dired settings
 
-| Setting               | Type    | Default | Description                                    |
-| --------------------- | ------- | ------- | ---------------------------------------------- |
-| `dired.fixed_window`  | boolean | `false` | Reuse the same editor tab for dired navigation |
-| `dired.ask_directory` | boolean | `true`  | Prompt for directory when opening dired        |
+| Setting                        | Type    | Default | Description                                    |
+| ------------------------------ | ------- | ------- | ---------------------------------------------- |
+| `emacs-mcx.dired.fixedWindow`  | boolean | `false` | Reuse the same editor tab for dired navigation |
+| `emacs-mcx.dired.askDirectory` | boolean | `true`  | Prompt for directory when opening dired        |
 
 ## Attribution
 

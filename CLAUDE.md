@@ -26,9 +26,14 @@ The extension provides comprehensive Emacs keybindings and operations: multi-cur
 
 ### Test
 
-- `npm run test` - VS Code integration tests via @vscode/test-cli (config: `.vscode-test.mjs`, mocha TDD style)
-- `npm run test-gen-keys` - Keybinding generator tests via vitest (config: `vitest.config.ts`)
+- `npm run test-gen-keys` - Unit tests via vitest (keybinding generator + pure logic; no VS Code). Config: `vitest.config.ts`
+- `npm run test` - Full VS Code integration suite via @vscode/test-cli (config: `.vscode-test.mjs`, mocha TDD). Two labels: `core` and `clipboard`
+- `npm run test:headless` - Unit + `core` integration tests, fully headless on xvfb (no windows, no clipboard flake) — the everyday path
+- `npm run test:core` - Integration tests except the kill-ring/yank clipboard suites (headless xvfb)
+- `npm run test:clipboard` - Only the kill-ring/yank clipboard suites, via `scripts/run-integration-tests.sh` on WSLg `:0` (real clipboard, `retries: 2`)
 - `npm run test:web` - Web extension tests
+
+**Clipboard tests need a real clipboard.** The kill-ring/yank tests use VS Code's native clipboard paste (an async OS-clipboard round-trip), which flakes under bare xvfb. They run on `:0` (real Windows clipboard via WSLg) and are retry-wrapped; everything else is stable headless. See CONTRIBUTING.md.
 
 ### Lint
 

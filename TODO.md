@@ -13,7 +13,17 @@
 
 ## Upstream Watch
 
-- [ ] **Watch PR #2804**: `just-one-space` (M-SPC) — delete spaces/tabs around point, leave one. By whitphx. Low priority — `M-\` (delete-horizontal-space) covers the use case and `Alt+Space` is stolen by Windows. Check: `gh pr view 2804 --repo whitphx/vscode-emacs-mcx`
+Upstream reviewed 2026-06 (fork diverged 2026-03-12). Cherry-picked into 1.2.12:
+
+- [x] **#2898** — fix flaky kill-yank / `newLine` prefix-arg tests (`newLine` `waitForDocumentToSettle` + kill-yank test resilience)
+
+Merged upstream, worth incorporating but **deferred** (own effort; keybinding parts need the `gen-keys` workflow, not a raw cherry-pick):
+
+- [ ] **#2816** subword-mode underscore handling, **#2819** yank-pop undo stability (`document.version`), **#2869** clipboard shortcuts in find/search widgets, **#2871** exclude `inlineEditIsVisible` from `tabToTabStop` — bug fixes.
+
+**Decided against** (don't revisit): **#2818** `cycle-spacing` and **#2804** `just-one-space` (both M-SPC) — we use `M-\` (delete-horizontal-space) for this, and `Alt+Space` is stolen by Windows.
+
+Skip (N/A to this fork): TypeScript 6 bump, vendored paredit.js relative-import fix (we use `paredit-ts`), upstream-only CI (Takumi Guard, Aikido, macOS pin).
 
 ## Future
 
