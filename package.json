@@ -8300,6 +8300,7 @@
     "typecheck": "tsc --noEmit",
     "test-compile": "tsc && tsc-alias",
     "gen-keys": "tsx ./keybinding-generator/cli.mts",
+    "refresh-vsc-defaults": "tsx ./keybinding-generator/refresh-default-keybindings.mts",
     "test-gen-keys": "vitest run --config vitest.config.ts",
     "fix:prettier": "prettier --write .",
     "fix:eslint": "eslint src keybinding-generator --fix",

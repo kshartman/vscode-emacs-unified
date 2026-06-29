@@ -5,3 +5,5 @@ out
 src/vs/
 keybindings.json
 vendor/
+# Vendored upstream VS Code default keybindings — keep verbatim for clean refresh diffs
+keybinding-generator/default-keybindings/

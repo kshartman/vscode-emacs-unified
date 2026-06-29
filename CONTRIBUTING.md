@@ -80,6 +80,30 @@ Commit both the `keybindings/*.json` changes and the auto-updated `package.json`
 
 CI checks for keybinding drift — if you forget to run gen-keys, the lint-and-build workflow will fail.
 
+### VS Code default keybindings (vendored)
+
+`gen-keys` weaves in VS Code's own default keybindings so that, for example,
+`C-g` cancels everything `Escape` cancels (close widgets, dismiss suggestions,
+etc.). That default set is **vendored** as a committed snapshot in
+`keybinding-generator/default-keybindings/` — `gen-keys` reads those files
+rather than fetching live, so it is deterministic and offline and the release
+gate never breaks by surprise when VS Code's upstream defaults drift.
+
+The snapshot is intentionally frozen: `C-g` only covers the `Escape` actions
+present in it. To pick up newly-added VS Code defaults (e.g. when bumping the
+`engines.vscode` floor), refresh it **deliberately** — do **not** automate this
+in the release pipeline:
+
+```shell
+npm run refresh-vsc-defaults   # re-download the snapshot
+npm run gen-keys               # regenerate package.json
+# review the package.json diff, run the tests, then commit
+```
+
+When refreshing, watch for new built-in commands the test VS Code may not
+register — `extension.native.test.ts` ("all keys have handlers") will flag them,
+and they go in that test's `exceptions` list.
+
 ### Extended keybinding syntax
 
 **`keys`, `whens`** — define multiple key combinations and/or when conditions for one command:

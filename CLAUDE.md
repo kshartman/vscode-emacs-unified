@@ -44,6 +44,8 @@ The extension provides comprehensive Emacs keybindings and operations: multi-cur
 
 - `npm run gen-keys` - Generate keybindings from `keybindings/*.json` into package.json
 - **CRITICAL: Never edit package.json keybindings directly** — edit `keybindings/*.json` then run gen-keys
+- `gen-keys` weaves in VS Code's default keybindings (so e.g. `C-g` cancels whatever `Escape` cancels) from a **vendored** snapshot in `keybinding-generator/default-keybindings/` — committed, not fetched, so generation is deterministic/offline and the release gate can't drift-break
+- `npm run refresh-vsc-defaults` - deliberately re-download that snapshot (then gen-keys + review + test + commit). Do this when bumping `engines.vscode`, not in CI. See CONTRIBUTING.md
 
 ## Architecture
 

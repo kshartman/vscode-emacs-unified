@@ -22,7 +22,7 @@
     "/@[a-zA-Z0-9-_]{4,}/g", // Username
     "/%([2-7][0-9A-Fa-f])/" // Encoded URL string
   ],
-  "ignorePaths": ["src/vs", "vendor", "**/*.svg"],
+  "ignorePaths": ["src/vs", "vendor", "**/*.svg", "keybinding-generator/default-keybindings"],
   "words": [
     // Test tooling / WSL
     "WSLG",

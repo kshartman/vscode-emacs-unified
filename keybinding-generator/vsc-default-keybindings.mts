@@ -1,5 +1,14 @@
+import fs from "node:fs";
+import path from "node:path";
+import url from "node:url";
 import stripJsonComments from "strip-json-comments";
 import { addWhenCond } from "./utils.mjs";
+
+// Vendored snapshot of VS Code's default keybindings, by platform. These are
+// committed (see ./default-keybindings/) rather than fetched at generate time
+// so `gen-keys` is deterministic and offline — the keybinding output only
+// changes when the snapshot is deliberately refreshed (npm run refresh-vsc-defaults).
+const defaultKeybindingsDir = path.resolve(path.dirname(url.fileURLToPath(import.meta.url)), "default-keybindings");
 
 export interface VscKeybinding {
   key: string;
@@ -32,19 +41,18 @@ function isVscKeybinding(keybinding: unknown): keybinding is VscKeybinding {
 }
 async function loadVscDefaultKeybindings(platform: "linux" | "win" | "osx"): Promise<VscKeybinding[]> {
   const platformFilePrefix = platform === "linux" ? "linux" : platform === "win" ? "windows" : "macos";
-  const url = `https://raw.githubusercontent.com/codebling/vs-code-default-keybindings/refs/heads/master/${platformFilePrefix}.keybindings.json`;
-  let response: Response;
+  const filePath = path.join(defaultKeybindingsDir, `${platformFilePrefix}.keybindings.json`);
+  let text: string;
   try {
-    response = await fetch(url);
+    text = await fs.promises.readFile(filePath, "utf8");
   } catch (error) {
-    throw new Error(`Failed to fetch keybindings from ${url}`, {
-      cause: error,
-    });
+    throw new Error(
+      `Failed to read vendored default keybindings from ${filePath} (run 'npm run refresh-vsc-defaults')`,
+      {
+        cause: error,
+      },
+    );
   }
-  if (!response.ok) {
-    throw new Error(`Failed to fetch keybindings for ${platform} (${url}): ${response.status} ${response.statusText}`);
-  }
-  const text = await response.text();
   const vscDefaultKeybindings = JSON.parse(stripJsonComments(text)) as unknown;
   if (!Array.isArray(vscDefaultKeybindings)) {
     throw new Error("vscDefaultKeybindings is not an array");
