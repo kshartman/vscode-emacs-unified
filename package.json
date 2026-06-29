@@ -277,12 +277,12 @@
             "silly"
           ]
         },
-        "dired.fixed_window": {
+        "emacs-mcx.dired.fixedWindow": {
           "type": "boolean",
           "default": false,
           "description": "Open dired in the same tab (preview) instead of a new tab."
         },
-        "dired.ask_directory": {
+        "emacs-mcx.dired.askDirectory": {
           "type": "boolean",
           "default": true,
           "description": "Ask which directory to open when launching dired."

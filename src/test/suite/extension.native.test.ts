@@ -31,6 +31,12 @@ suite("package.json", () => {
     const exceptions = [
       "", // Empty string is used for unregistering commands.
       "references-view.findReferences", // This command is registered by the references-view extension and it's not activated in the test environment.
+      // Built-in VS Code commands woven in from the fetched default-keybindings
+      // set (see keybinding-generator/vsc-default-keybindings.mts). They are not
+      // registered in every VS Code version the test harness downloads, so their
+      // presence here varies independently of this extension.
+      "inlineChat.hideInput",
+      "inlineChat2.undo",
     ];
 
     for (const keybinding of keybindings) {
@@ -67,7 +73,7 @@ suite("package.json", () => {
         return false;
       }
 
-      if (keyFirstSegment && ["subwordMode", "paredit"].includes(keyFirstSegment)) {
+      if (keyFirstSegment && ["subwordMode", "paredit", "dired", "tab"].includes(keyFirstSegment)) {
         // These configs are consumed in code but do not have direct handlers in Configuration class.
         return false;
       }

@@ -7,9 +7,9 @@ import { Logger } from "../../logger";
 const logger = Logger.get("dired");
 
 export function registerDired(context: vscode.ExtensionContext): void {
-  const config = vscode.workspace.getConfiguration("dired");
-  const fixedWindow = config.get<boolean>("fixed_window", false);
-  const askDir = config.get<boolean>("ask_directory", true);
+  const config = vscode.workspace.getConfiguration("emacs-mcx.dired");
+  const fixedWindow = config.get<boolean>("fixedWindow", false);
+  const askDir = config.get<boolean>("askDirectory", true);
 
   const provider = new DiredProvider(fixedWindow);
 
