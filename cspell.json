@@ -24,6 +24,10 @@
   ],
   "ignorePaths": ["src/vs", "vendor", "**/*.svg"],
   "words": [
+    // Test tooling / WSL
+    "WSLG",
+    "xdpyinfo",
+    "Takumi",
     // Emacs terms
     "paredit",
     "minibuffer",
