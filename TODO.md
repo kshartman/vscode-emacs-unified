@@ -29,3 +29,10 @@ Skip (N/A to this fork): TypeScript 6 bump, vendored paredit.js relative-import 
 
 - [ ] Consider esbuild over webpack for faster builds
 - [ ] Explore `noUnusedParameters` stricter TypeScript setting (`noImplicitReturns` already enabled)
+
+### Deferred dependency majors
+
+Routine dev-dep + GitHub Action bumps were applied; these two majors need a deliberate pass (Dependabot PRs were closed):
+
+- [ ] **TypeScript 6** — surfaces "cannot find name `suite`/`test`/`mocha`/`__WebpackModuleApi`" in the test files: TS 6 changed ambient `@types` auto-discovery. Needs a tsconfig `types` migration (upstream did this in their "Dev/typescript 6" commit). Don't bump without fixing tsconfig + re-verifying the full build/tests.
+- [ ] **cspell 10** — requires Node ≥ 22.18.0; the project pins `.nvmrc` `lts/*` and dev env is on 22.17.1, so `npm run cspell` won't even start. Bump the local/dev Node baseline first, then upgrade.
