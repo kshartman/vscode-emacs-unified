@@ -11,6 +11,7 @@ import {
   cleanUpWorkspace,
   setEmptyCursors,
   setupWorkspace,
+  setClipboardText,
   clearTextEditor,
   createEmulator,
 } from "../../utils";
@@ -31,7 +32,7 @@ import {
 
       suite("with a single line text in clipboard", () => {
         setup(async () => {
-          await vscode.env.clipboard.writeText("Lorem ipsum");
+          await setClipboardText("Lorem ipsum");
         });
 
         test("it works with single cursor", async () => {
@@ -69,7 +70,7 @@ import {
 
       suite("with a multiple lines text in clipboard", () => {
         setup(async () => {
-          await vscode.env.clipboard.writeText("Lorem ipsum\ndolor sit amet,");
+          await setClipboardText("Lorem ipsum\ndolor sit amet,");
         });
 
         test("it works with single cursor", async () => {
@@ -131,7 +132,7 @@ ABCDEFGHIJ`;
 
       suite("with a single line text in clipboard", () => {
         setup(async () => {
-          await vscode.env.clipboard.writeText("Lorem ipsum");
+          await setClipboardText("Lorem ipsum");
         });
 
         test("it works with single non-empty cursor (selected text are removed)", async () => {
@@ -183,7 +184,7 @@ suite("Yank with prefix-argument", () => {
     for (let i = 0; i < 10; i++) {
       killRing.push(new ClipboardTextKillRingEntity(i.toString()));
     }
-    vscode.env.clipboard.writeText("9"); // Emulate the kill behavior
+    await setClipboardText("9"); // Emulate the kill behavior
     emulator = createEmulator(activeTextEditor, killRing);
   });
 
@@ -268,7 +269,7 @@ suite("Yank", () => {
   teardown(cleanUpWorkspace);
 
   test("the clipboard text is pushed to the kill-ring if the kill ring is empty", async () => {
-    vscode.env.clipboard.writeText("Lorem ipsum");
+    await setClipboardText("Lorem ipsum");
     setEmptyCursors(activeTextEditor, [1, 0]);
 
     await emulator.runCommand("yank");
@@ -296,7 +297,7 @@ suite("Yank", () => {
 
       await clearTextEditor(activeTextEditor);
 
-      vscode.env.clipboard.writeText("Lorem ipsum");
+      await setClipboardText("Lorem ipsum");
       setEmptyCursors(activeTextEditor, [0, 0]);
 
       await preFn();
@@ -359,7 +360,7 @@ suite("Yank", () => {
 
       await clearTextEditor(activeTextEditor);
 
-      vscode.env.clipboard.writeText("Lorem ipsum");
+      await setClipboardText("Lorem ipsum");
       setEmptyCursors(activeTextEditor, [0, 0]);
 
       await preFn();
@@ -393,7 +394,7 @@ suite("yank-from-kill-ring", () => {
   teardown(cleanUpWorkspace);
 
   test("the clipboard text is pushed to the kill-ring if the kill ring is empty", async () => {
-    vscode.env.clipboard.writeText("Lorem ipsum");
+    await setClipboardText("Lorem ipsum");
     setEmptyCursors(activeTextEditor, [1, 0]);
 
     await emulator.runCommand("yankPop"); // yank-pop works as yank-from-kill-ring when called after a non-kill command.
@@ -413,7 +414,7 @@ suite("yank-from-kill-ring", () => {
 
     await clearTextEditor(activeTextEditor);
 
-    vscode.env.clipboard.writeText("Lorem ipsum");
+    await setClipboardText("Lorem ipsum");
     setEmptyCursors(activeTextEditor, [0, 0]);
 
     await emulator.runCommand("yankPop"); // yank-pop works as yank-from-kill-ring when called after a non-kill command.

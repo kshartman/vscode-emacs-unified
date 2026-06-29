@@ -7,7 +7,25 @@ import { Minibuffer } from "../../minibuffer";
 import { Registers, RegisterCommandState } from "../../commands/registers";
 import { ZapCommandState } from "../../commands/zap";
 import { RectangleState } from "../../commands/rectangle";
-export { delay } from "../../utils";
+import { delay } from "../../utils";
+export { delay };
+
+// Write `text` to the system clipboard and wait until a read confirms it landed.
+// VS Code's `writeText` resolves before the value is reliably readable from the
+// OS clipboard, so a yank that reads the clipboard immediately afterwards can
+// observe an empty/stale value. Confirming the write (paired with a clipboard
+// manager that holds the selection) makes clipboard-dependent tests
+// deterministic.
+export async function setClipboardText(text: string, { timeoutMs = 3000 }: { timeoutMs?: number } = {}): Promise<void> {
+  const deadline = Date.now() + timeoutMs;
+  await vscode.env.clipboard.writeText(text);
+  while ((await vscode.env.clipboard.readText()) !== text) {
+    if (Date.now() >= deadline) {
+      throw new Error(`Clipboard did not reflect the written text within ${timeoutMs}ms`);
+    }
+    await delay(10);
+  }
+}
 
 export async function setupWorkspace(
   initialText = "",
@@ -26,15 +44,17 @@ export async function setupWorkspace(
     language,
   });
 
-  await vscode.window.showTextDocument(doc, column, false);
-
-  const activeTextEditor = vscode.window.activeTextEditor;
-  assert.ok(activeTextEditor);
+  // Return the `TextEditor` that `showTextDocument` resolves to instead of
+  // reading `vscode.window.activeTextEditor` after the call. The active editor
+  // can change between the resolution of `showTextDocument` and the next
+  // synchronous read, which would leave the test holding a reference to an
+  // unrelated editor and produce flaky failures.
+  const textEditor = await vscode.window.showTextDocument(doc, column, false);
 
   // Set EOL to LF for the tests to work even on Windows
-  await activeTextEditor.edit((editBuilder) => editBuilder.setEndOfLine(eol));
+  await textEditor.edit((editBuilder) => editBuilder.setEndOfLine(eol));
 
-  return activeTextEditor;
+  return textEditor;
 }
 
 export async function clearTextEditor(textEditor: TextEditor, initializeWith = ""): Promise<void> {
@@ -76,6 +96,18 @@ export function createEmulator(
 
 export function setEmptyCursors(textEditor: TextEditor, ...positions: Array<[number, number]>): void {
   textEditor.selections = positions.map((p) => new Selection(new Position(p[0], p[1]), new Position(p[0], p[1])));
+}
+
+// Select the whole text of `textEditor`. Use this instead of
+// `vscode.commands.executeCommand("editor.action.selectAll")` in tests because
+// the latter operates on `vscode.window.activeTextEditor`, which can drift
+// during the test (e.g. when an unrelated editor or output document grabs
+// focus) and produce flaky failures.
+export function selectAllText(textEditor: TextEditor): void {
+  const doc = textEditor.document;
+  const start = new Position(0, 0);
+  const end = doc.positionAt(doc.getText().length);
+  textEditor.selections = [new Selection(start, end)];
 }
 
 export async function cleanUpWorkspace(): Promise<void> {

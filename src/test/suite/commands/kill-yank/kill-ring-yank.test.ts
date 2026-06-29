@@ -12,8 +12,10 @@ import {
   cleanUpWorkspace,
   clearTextEditor,
   delay,
+  selectAllText,
   setEmptyCursors,
   setupWorkspace,
+  setClipboardText,
   createEmulator,
 } from "../../utils";
 
@@ -25,7 +27,7 @@ suite("kill, yank, yank-pop", () => {
   suite("with empty initial text", () => {
     setup(async () => {
       activeTextEditor = await setupWorkspace();
-      await vscode.env.clipboard.writeText("");
+      await setClipboardText("");
     });
 
     teardown(cleanUpWorkspace);
@@ -36,15 +38,15 @@ suite("kill, yank, yank-pop", () => {
 
       // kill 3 times with different texts
       await clearTextEditor(activeTextEditor, "Lorem ipsum");
-      await vscode.commands.executeCommand("editor.action.selectAll");
+      selectAllText(activeTextEditor);
       await emulator.runCommand("killRegion");
 
       await clearTextEditor(activeTextEditor, "dolor sit amet,\nconsectetur adipiscing elit,");
-      await vscode.commands.executeCommand("editor.action.selectAll");
+      selectAllText(activeTextEditor);
       await emulator.runCommand("killRegion");
 
       await clearTextEditor(activeTextEditor, "sed do eiusmod tempor\nincididunt ut labore et\ndolore magna aliqua.");
-      await vscode.commands.executeCommand("editor.action.selectAll");
+      selectAllText(activeTextEditor);
       await emulator.runCommand("killRegion");
 
       // Initialize with non-empty text
@@ -138,11 +140,11 @@ ABCDEFGHIJ`,
 
       // Kill first
       await clearTextEditor(activeTextEditor, "Lorem ipsum");
-      await vscode.commands.executeCommand("editor.action.selectAll");
+      selectAllText(activeTextEditor);
       await emulator.runCommand("killRegion");
 
       // Then, copy to clipboard
-      await vscode.env.clipboard.writeText("12345");
+      await setClipboardText("12345");
 
       // Initialize with non-empty text
       const initialText = `0123456789
@@ -206,23 +208,27 @@ ABCDEFGHIJ`,
       );
     });
 
-    // Test yankPop is not executed after cursorMove or some other commands
-    const otherInterruptingCommands = ["editor.action.selectAll"];
-    const interruptingCommands: string[] = [...otherInterruptingCommands];
+    // Test yankPop is not executed after cursorMove or some other commands.
+    // Interrupters are passed the target editor so that the test does not rely
+    // on `vscode.window.activeTextEditor`, which can drift during the test run.
+    const otherInterrupters: Array<[string, (editor: vscode.TextEditor) => void]> = [
+      ["selectAllText", (editor) => selectAllText(editor)],
+    ];
+    const interrupters: Array<[string, (editor: vscode.TextEditor) => void]> = [...otherInterrupters];
 
-    interruptingCommands.forEach((interruptingCommand) => {
-      test(`yankPop works as browse-kill-ring if ${interruptingCommand} is executed after previous yank`, async () => {
+    interrupters.forEach(([interrupterLabel, interrupt]) => {
+      test(`yankPop works as browse-kill-ring if ${interrupterLabel} is executed after previous yank`, async () => {
         const killRing = new KillRing(3);
         const browseStub = sinon.stub(killRing, "browse").resolves(new ClipboardTextKillRingEntity("foo"));
         const emulator = createEmulator(activeTextEditor, killRing);
 
         // Kill texts
         await clearTextEditor(activeTextEditor, "FOO");
-        await vscode.commands.executeCommand("editor.action.selectAll");
+        selectAllText(activeTextEditor);
         await emulator.runCommand("killRegion");
 
         await clearTextEditor(activeTextEditor, "BAR");
-        await vscode.commands.executeCommand("editor.action.selectAll");
+        selectAllText(activeTextEditor);
         await emulator.runCommand("killRegion");
 
         // Initialize with non-empty text
@@ -243,8 +249,8 @@ abcdeBARfghij
 ABCDEFGHIJ`,
         );
 
-        // Interruption command invoked
-        await vscode.commands.executeCommand(interruptingCommand);
+        // Interruption invoked
+        interrupt(activeTextEditor);
 
         // yankPop works as browse-kill-ring
         await emulator.runCommand("yankPop");
@@ -257,18 +263,18 @@ ABCDEFGHIJ`,
         //         );
       });
 
-      test(`yankPop works as browse-kill-ring if ${interruptingCommand} is executed after previous yankPop`, async () => {
+      test(`yankPop works as browse-kill-ring if ${interrupterLabel} is executed after previous yankPop`, async () => {
         const killRing = new KillRing(3);
         const browseStub = sinon.stub(killRing, "browse").resolves(new ClipboardTextKillRingEntity("foo"));
         const emulator = createEmulator(activeTextEditor, killRing);
 
         // Kill texts
         await clearTextEditor(activeTextEditor, "FOO");
-        await vscode.commands.executeCommand("editor.action.selectAll");
+        selectAllText(activeTextEditor);
         await emulator.runCommand("killRegion");
 
         await clearTextEditor(activeTextEditor, "BAR");
-        await vscode.commands.executeCommand("editor.action.selectAll");
+        selectAllText(activeTextEditor);
         await emulator.runCommand("killRegion");
 
         // Initialize with non-empty text
@@ -298,8 +304,8 @@ abcdeFOOfghij
 ABCDEFGHIJ`,
         );
 
-        // Interruption command invoked
-        await vscode.commands.executeCommand(interruptingCommand);
+        // Interruption invoked
+        interrupt(activeTextEditor);
 
         // yankPop works as browse-kill-ring
         await emulator.runCommand("yankPop");
@@ -350,11 +356,11 @@ ABCDEFGHIJ`,
         test(`yankPop works as browse-kill-ring if ${label} is executed after previous yank`, async () => {
           // Kill texts
           await clearTextEditor(activeTextEditor, "FOO");
-          await vscode.commands.executeCommand("editor.action.selectAll");
+          selectAllText(activeTextEditor);
           await emulator.runCommand("killRegion");
 
           await clearTextEditor(activeTextEditor, "BAR");
-          await vscode.commands.executeCommand("editor.action.selectAll");
+          selectAllText(activeTextEditor);
           await emulator.runCommand("killRegion");
 
           // Initialize with non-empty text
@@ -394,11 +400,11 @@ ABCDEFGHIJ`,
         test(`yankPop works as browse-kill-ring if ${label} is executed after previous yankPop`, async () => {
           // Kill texts
           await clearTextEditor(activeTextEditor, "FOO");
-          await vscode.commands.executeCommand("editor.action.selectAll");
+          selectAllText(activeTextEditor);
           await emulator.runCommand("killRegion");
 
           await clearTextEditor(activeTextEditor, "BAR");
-          await vscode.commands.executeCommand("editor.action.selectAll");
+          selectAllText(activeTextEditor);
           await emulator.runCommand("killRegion");
 
           // Initialize with non-empty text
@@ -451,7 +457,7 @@ ABCDEFGHIJ`,
     setup(async () => {
       const initialText = "aaa";
       activeTextEditor = await setupWorkspace(initialText);
-      await vscode.env.clipboard.writeText("");
+      await setClipboardText("");
     });
 
     teardown(cleanUpWorkspace);
@@ -461,11 +467,11 @@ ABCDEFGHIJ`,
       const emulator = createEmulator(activeTextEditor, killRing);
 
       // Kill text
-      await vscode.commands.executeCommand("editor.action.selectAll");
+      selectAllText(activeTextEditor);
       await emulator.runCommand("killRegion");
 
       // Kill empty text
-      await vscode.commands.executeCommand("editor.action.selectAll");
+      selectAllText(activeTextEditor);
       await emulator.runCommand("killRegion");
 
       // Now the text is empty
@@ -493,7 +499,7 @@ ABCDEFGHIJ`,
     setup(async () => {
       const initialText = "aaa\nbbb\nccc";
       activeTextEditor = await setupWorkspace(initialText);
-      await vscode.env.clipboard.writeText("");
+      await setClipboardText("");
     });
 
     teardown(cleanUpWorkspace);
@@ -564,11 +570,11 @@ suite("yank pop with auto-indent", () => {
 
     // Kill texts
     await clearTextEditor(activeTextEditor, "foo"); // No indent
-    await vscode.commands.executeCommand("editor.action.selectAll");
+    selectAllText(activeTextEditor);
     await emulator.runCommand("killRegion");
 
     await clearTextEditor(activeTextEditor, "bar"); // No indent
-    await vscode.commands.executeCommand("editor.action.selectAll");
+    selectAllText(activeTextEditor);
     await emulator.runCommand("killRegion");
 
     // Initialize with parentheses, that triggers auto-indent to inner text
@@ -772,7 +778,7 @@ suite("Kill and yank with multi cursor, killing at 2 cursors in one line", () =>
 
 suite("With not only single text editor", () => {
   setup(async () => {
-    await vscode.env.clipboard.writeText("");
+    await setClipboardText("");
   });
 
   teardown(cleanUpWorkspace);
@@ -785,11 +791,11 @@ suite("With not only single text editor", () => {
 
     // Kill texts from one text editor
     await clearTextEditor(activeTextEditor0, "FOO");
-    await vscode.commands.executeCommand("editor.action.selectAll");
+    selectAllText(activeTextEditor0);
     await emulator0.runCommand("killRegion");
 
     await clearTextEditor(activeTextEditor0, "BAR");
-    await vscode.commands.executeCommand("editor.action.selectAll");
+    selectAllText(activeTextEditor0);
     await emulator0.runCommand("killRegion");
 
     const activeTextEditor1 = await setupWorkspace("");
