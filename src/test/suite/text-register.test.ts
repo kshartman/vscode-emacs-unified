@@ -66,6 +66,28 @@ suite("Text registers", () => {
     assertCursorsEqual(activeTextEditor, [1, 4]);
   });
 
+  test("multi-cursor copy stores each selection separately and inserts per-cursor (ISSUE-2)", async () => {
+    // Two cursors selecting different text: "012" on line 0, "abc" on line 1.
+    activeTextEditor.selections = [new vscode.Selection(0, 0, 0, 3), new vscode.Selection(1, 0, 1, 3)];
+    await emulator.runCommand("copyToRegister");
+    await emulator.runCommand("registerNameCommand", "a");
+
+    // Insert with the same number of cursors: each cursor receives its own text.
+    await clearTextEditor(activeTextEditor);
+    await activeTextEditor.edit((editBuilder) => editBuilder.insert(new vscode.Position(0, 0), "\n"));
+    activeTextEditor.selections = [new vscode.Selection(0, 0, 0, 0), new vscode.Selection(1, 0, 1, 0)];
+    await emulator.runCommand("insertRegister");
+    await emulator.runCommand("registerNameCommand", "a");
+    assertTextEqual(activeTextEditor, "012\nabc");
+
+    // Insert with a single cursor: the combined text is inserted (fallback).
+    await clearTextEditor(activeTextEditor);
+    setEmptyCursors(activeTextEditor, [0, 0]);
+    await emulator.runCommand("insertRegister");
+    await emulator.runCommand("registerNameCommand", "a");
+    assertTextEqual(activeTextEditor, "012abc");
+  });
+
   test("copy with prefix argument that deletes region", async () => {
     setEmptyCursors(activeTextEditor, [0, 2]);
     await emulator.setMarkCommand();

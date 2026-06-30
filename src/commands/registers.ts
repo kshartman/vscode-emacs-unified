@@ -12,7 +12,7 @@ interface RegisterEntryBase {
 }
 interface TextRegisterEntry extends RegisterEntryBase {
   type: "text";
-  text: string;
+  texts: string[]; // One text per selection at copy time, so a multi-cursor copy can be inserted per-cursor.
 }
 interface RectangleRegisterEntry extends RegisterEntryBase {
   type: "rectangle";
@@ -215,14 +215,13 @@ export class RegisterNameCommand extends EmacsCommand {
     }
 
     const texts = selections.map((selection) => textEditor.document.getText(selection));
-    const text = texts.join(""); // ISSUE-2: multi-cursor selections are joined into one string
 
     if (deleteRegion) {
       await deleteRanges(textEditor, selections);
       revealPrimaryActive(textEditor);
     }
 
-    this.registers.set(registerName, { type: "text", text });
+    this.registers.set(registerName, { type: "text", texts });
 
     this.emacsController.exitMarkMode();
     makeSelectionsEmpty(textEditor);
@@ -241,13 +240,19 @@ export class RegisterNameCommand extends EmacsCommand {
     }
 
     if (dataToInsert.type === "text") {
+      // Mirror kill-yank: when the register holds one text per cursor and the
+      // current cursor count matches, insert each text at its corresponding
+      // cursor. Otherwise insert the combined text at every cursor (ISSUE-2).
+      const { texts } = dataToInsert;
+      const insertSeparately = texts.length > 1 && texts.length === selections.length;
+      const joinedText = texts.join("");
       await textEditor.edit((editBuilder) => {
-        selections.forEach((selection) => {
+        selections.forEach((selection, i) => {
           if (!selection.isEmpty) {
             editBuilder.delete(selection);
           }
 
-          editBuilder.insert(selection.start, dataToInsert.text);
+          editBuilder.insert(selection.start, insertSeparately ? texts[i]! : joinedText);
         });
       });
     } else if (dataToInsert.type === "rectangle") {
