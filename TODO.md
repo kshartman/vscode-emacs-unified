@@ -3,13 +3,13 @@
 ## Bugs
 
 - [x] ~~**ISSUE-1**: Paredit kill does not add killed text to the kill ring~~ — was working; test assertions were wrong
-- [ ] **ISSUE-3**: Case conversion (`upcase-word` / `downcase-word`) fails when word has trailing whitespace before newline
+- [x] ~~**ISSUE-3**: Case conversion (`upcase-word` / `downcase-word`) fails when word has trailing whitespace before newline~~ — fixed in 1.3.0 (case ops cross trailing whitespace/newlines via `findNextWordEnd`)
 
 ## Feature Gaps
 
-- [ ] **ISSUE-2**: `copy-to-register` joins multi-cursor selections into one string instead of storing them separately (like kill-yank does)
-- [ ] **ISSUE-4**: Rectangle commands differ from Emacs on empty selections
-- [ ] **ISSUE-5**: `C-u M-;` should kill the comment on the line (comment-kill) — currently prefix argument is ignored
+- [x] ~~**ISSUE-2**: `copy-to-register` joins multi-cursor selections into one string~~ — fixed in 1.3.0 (stores one text per selection, inserts per-cursor when counts match)
+- [ ] **ISSUE-4**: Rectangle commands differ from Emacs on empty selections — deferred: only the fully-degenerate empty region (point==mark) no-ops; a zero-width multi-line region already works. Negligible edge case, "correct" behavior undecided.
+- [x] ~~**ISSUE-5**: `C-u M-;` should kill the comment on the line (comment-kill)~~ — fixed in 1.3.0 (prefix arg runs comment-kill, saving the comment to the kill ring)
 
 ## Upstream Watch
 
@@ -17,9 +17,15 @@ Upstream reviewed 2026-06 (fork diverged 2026-03-12). Cherry-picked into 1.2.12:
 
 - [x] **#2898** — fix flaky kill-yank / `newLine` prefix-arg tests (`newLine` `waitForDocumentToSettle` + kill-yank test resilience)
 
-Merged upstream, worth incorporating but **deferred** (own effort; keybinding parts need the `gen-keys` workflow, not a raw cherry-pick):
+Cherry-picked into 1.3.0:
 
-- [ ] **#2816** subword-mode underscore handling, **#2819** yank-pop undo stability (`document.version`), **#2869** clipboard shortcuts in find/search widgets, **#2871** exclude `inlineEditIsVisible` from `tabToTabStop` — bug fixes.
+- [x] **#2819** yank-pop undo stability (`document.version` delta instead of a manual change counter)
+- [x] **#2816** subword-mode underscore handling (`_` treated as a separator via `[\W_]`)
+
+Merged upstream, **deferred** — keybinding `when`-clause changes that our automated suite can't verify behaviorally; need manual cross-platform testing (find/replace widgets, webviews, Windows, terminal) in a real VS Code:
+
+- [ ] **#2869** clipboard shortcuts (C-w/M-w/C-y) in find/search widgets and webviews
+- [ ] **#2871** exclude `inlineEditIsVisible` from `tabToTabStop` when clause
 
 **Decided against** (don't revisit): **#2818** `cycle-spacing` and **#2804** `just-one-space` (both M-SPC) — we use `M-\` (delete-horizontal-space) for this, and `Alt+Space` is stolen by Windows.
 

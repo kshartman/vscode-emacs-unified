@@ -1,5 +1,23 @@
 # Changelog
 
+## 1.3.0
+
+### Added
+
+- **`C-u M-;` (comment-kill)** — with a prefix argument, `comment-dwim` (`M-;`) now kills the comment on the current line(s) to the kill ring. Previously the prefix argument was ignored.
+
+### Fixed
+
+- **Case-word commands across trailing whitespace** — `upcase-word` / `downcase-word` / `capitalize-word` (`M-u` / `M-l` / `M-c`) no longer stall when the cursor sits in trailing whitespace before a newline; they advance to the next word like Emacs. Emacs-mode `M-f` gains the same cross-line behavior.
+- **`copy-to-register` with multiple cursors** — each cursor's selection is stored separately and re-inserted per cursor on `insert-register` when the cursor count matches, instead of being joined into a single string.
+- **Subword-mode underscores** — `_` is now treated as a word separator in subword navigation (e.g. `forward-word` over `_a_b` stops at the second `_`), matching Emacs (cherry-picked from upstream vscode-emacs-mcx #2816).
+- **yank-pop undo stability** — the number of document changes a yank produced is tracked via `document.version` rather than a manually incremented counter, so yank-pop reliably reverts multi-edit yanks (e.g. with `formatOnPaste`) (cherry-picked from upstream #2819).
+
+### Changed
+
+- **TypeScript 6** — upgraded the toolchain to TypeScript 6.0 with no deprecated options (explicit `types` fields replace TS 6's dropped automatic `@types` inclusion; Node builtins imported via the `node:` protocol). Dev/build-only; no runtime behavior change.
+- Routine dev-dependency and GitHub Actions version bumps (non-major).
+
 ## 1.2.12
 
 ### Changed
