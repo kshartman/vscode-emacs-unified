@@ -1,4 +1,4 @@
-import assert from "assert";
+import assert from "node:assert";
 import { evaluateSimpleBooleanExpression } from "./simple-eval-bool.mjs";
 
 describe("evaluateSimpleBooleanExpression", () => {

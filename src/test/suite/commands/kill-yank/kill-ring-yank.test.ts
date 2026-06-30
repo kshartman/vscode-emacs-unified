@@ -1,4 +1,4 @@
-import assert from "assert";
+import assert from "node:assert";
 import * as vscode from "vscode";
 import sinon from "sinon";
 import { Position, Range, Selection } from "vscode";

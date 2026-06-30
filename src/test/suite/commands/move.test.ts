@@ -1,5 +1,5 @@
 import * as vscode from "vscode";
-import assert from "assert";
+import assert from "node:assert";
 import sinon from "sinon";
 import { TextEditor } from "vscode";
 import { EmacsEmulator } from "../../../emulator";

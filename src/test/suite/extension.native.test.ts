@@ -1,4 +1,4 @@
-import assert from "assert";
+import assert from "node:assert";
 import vscode from "vscode";
 import path from "path";
 

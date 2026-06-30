@@ -1,5 +1,5 @@
 import * as vscode from "vscode";
-import assert from "assert";
+import assert from "node:assert";
 import { cleanUpWorkspace, setupWorkspace } from "./utils";
 import { convertSelectionToRectSelections } from "../../rectangle";
 

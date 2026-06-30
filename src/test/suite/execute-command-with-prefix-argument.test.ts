@@ -1,6 +1,6 @@
 import * as vscode from "vscode";
 import sinon from "sinon";
-import assert from "assert";
+import assert from "node:assert";
 import { EmacsEmulator } from "../../emulator";
 import { cleanUpWorkspace, setupWorkspace, createEmulator } from "./utils";
 

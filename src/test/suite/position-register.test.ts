@@ -10,7 +10,7 @@ import {
   assertSelectionsEqual,
   createEmulator,
 } from "./utils";
-import assert from "assert";
+import assert from "node:assert";
 
 suite("Point registers", () => {
   const initialText = "0123456789\nabcdefghij\nABCDEFGHIJ";

@@ -1,4 +1,4 @@
-import assert from "assert";
+import assert from "node:assert";
 import { FileItem } from "../../../commands/dired/file-item";
 
 suite("Dired FileItem", () => {

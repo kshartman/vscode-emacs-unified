@@ -1,6 +1,6 @@
 import * as vscode from "vscode";
 import * as sinon from "sinon";
-import * as assert from "assert";
+import * as assert from "node:assert";
 import { KillRing } from "../../../../kill-yank/kill-ring";
 import { ClipboardTextKillRingEntity } from "../../../../kill-yank/kill-ring-entity/clipboard-text";
 import { assertTextEqual, cleanUpWorkspace, setEmptyCursors, setupWorkspace, createEmulator } from "../../utils";

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/require-await */
-import assert from "assert";
+import assert from "node:assert";
 import * as vscode from "vscode";
 import { findNextWordEnd, findPreviousWordStart } from "../../commands/helpers/wordOperations";
 import { WordCharacterClassifier } from "../../vs/editor/common/controller/wordCharacterClassifier";

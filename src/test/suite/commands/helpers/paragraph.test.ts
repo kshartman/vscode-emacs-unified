@@ -1,4 +1,4 @@
-import assert from "assert";
+import assert from "node:assert";
 import * as vscode from "vscode";
 import { Position } from "vscode";
 import { travelForward, travelBackward } from "../../../../commands/helpers/paragraph";

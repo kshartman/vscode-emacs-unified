@@ -1,5 +1,5 @@
 import * as vscode from "vscode";
-import * as assert from "assert";
+import * as assert from "node:assert";
 import { EmacsEmulator } from "../../emulator";
 import { findCharForward } from "../../commands/zap";
 import { KillRing } from "../../kill-yank/kill-ring";

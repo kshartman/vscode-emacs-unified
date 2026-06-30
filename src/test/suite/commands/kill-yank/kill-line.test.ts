@@ -1,4 +1,4 @@
-import assert from "assert";
+import assert from "node:assert";
 import * as vscode from "vscode";
 import { Position, Range } from "vscode";
 import { Configuration } from "../../../../configuration/configuration";

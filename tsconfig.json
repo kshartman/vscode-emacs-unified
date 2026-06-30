@@ -4,6 +4,7 @@
     "target": "es2022",
     "outDir": "out",
     "lib": ["ESNext", "WebWorker"],
+    "types": ["node", "mocha", "webpack-env"],
     "sourceMap": true,
     "rootDir": "src",
     "paths": {

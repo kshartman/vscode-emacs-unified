@@ -1,5 +1,5 @@
 import * as vscode from "vscode";
-import assert from "assert";
+import assert from "node:assert";
 import { EmacsEmulator } from "../../../emulator";
 import {
   assertTextEqual,

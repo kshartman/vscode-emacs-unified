@@ -23,7 +23,7 @@ Merged upstream, worth incorporating but **deferred** (own effort; keybinding pa
 
 **Decided against** (don't revisit): **#2818** `cycle-spacing` and **#2804** `just-one-space` (both M-SPC) — we use `M-\` (delete-horizontal-space) for this, and `Alt+Space` is stolen by Windows.
 
-Skip (N/A to this fork): TypeScript 6 bump, vendored paredit.js relative-import fix (we use `paredit-ts`), upstream-only CI (Takumi Guard, Aikido, macOS pin).
+Skip (N/A to this fork): vendored paredit.js relative-import fix (we use `paredit-ts`), upstream-only CI (Takumi Guard, Aikido, macOS pin). (TypeScript 6 was done independently — see Deferred dependency majors below.)
 
 ## Future
 
@@ -32,7 +32,7 @@ Skip (N/A to this fork): TypeScript 6 bump, vendored paredit.js relative-import 
 
 ### Deferred dependency majors
 
-Routine dev-dep + GitHub Action bumps were applied; these two majors need a deliberate pass (Dependabot PRs were closed):
+Routine dev-dep + GitHub Action bumps were applied; these majors needed a deliberate pass (Dependabot PRs were closed):
 
-- [ ] **TypeScript 6** — surfaces "cannot find name `suite`/`test`/`mocha`/`__WebpackModuleApi`" in the test files: TS 6 changed ambient `@types` auto-discovery. Needs a tsconfig `types` migration (upstream did this in their "Dev/typescript 6" commit). Don't bump without fixing tsconfig + re-verifying the full build/tests.
+- [x] **TypeScript 6** — done with no deprecations. Root cause was TS 6 dropping automatic `@types` inclusion (every program — `tsc`, `ts-loader`, `typescript-estree` — now needs an explicit `types` field), not a module-resolution mechanics problem. Fix: removed the deprecated `moduleResolution: "node10"` (kept `module: "commonjs"` for CJS test/bundle output) and added `"types": ["node", "mocha", "webpack-env"]` to the main tsconfig; switched `keybinding-generator/tsconfig.json` off the deprecated `moduleResolution: "Node"` to `"Bundler"` with `"types": ["node", "vitest/globals"]`; and changed all `assert` imports to `node:assert` (the bare specifier resolved to the untyped `assert` polyfill under the projectService). No `ignoreDeprecations` shim. Verified: tsc 0, both webpack builds, eslint, prettier, vitest 36/36, integration 552/552.
 - [ ] **cspell 10** — requires Node ≥ 22.18.0; the project pins `.nvmrc` `lts/*` and dev env is on 22.17.1, so `npm run cspell` won't even start. Bump the local/dev Node baseline first, then upgrade.

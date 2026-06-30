@@ -1,5 +1,5 @@
 import * as vscode from "vscode";
-import assert from "assert";
+import assert from "node:assert";
 import { EmacsEmulator } from "../../../emulator";
 import { Configuration } from "../../../configuration/configuration";
 import { assertSelectionsEqual, cleanUpWorkspace, createEmulator, setEmptyCursors, setupWorkspace } from "../utils";

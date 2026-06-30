@@ -1,5 +1,5 @@
 import { Position } from "vscode";
-import assert from "assert";
+import assert from "node:assert";
 import { MarkRing } from "../../mark-ring";
 
 suite("MarkRing", () => {

@@ -1,4 +1,4 @@
-import assert from "assert";
+import assert from "node:assert";
 import { Selection, TextEditor } from "vscode";
 import { EmacsEmulator } from "../../../emulator";
 import { assertSelectionsEqual, cleanUpWorkspace, setupWorkspace, createEmulator } from "../utils";

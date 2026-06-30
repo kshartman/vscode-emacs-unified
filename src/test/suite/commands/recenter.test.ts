@@ -1,4 +1,4 @@
-import assert from "assert";
+import assert from "node:assert";
 import vscode from "vscode";
 import { EmacsEmulator } from "../../../emulator";
 import { setupWorkspace, cleanUpWorkspace, delay, createEmulator } from "../utils";

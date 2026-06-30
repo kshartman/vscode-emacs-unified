@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/require-await */
-import assert from "assert";
+import assert from "node:assert";
 import * as sinon from "sinon";
 import * as vscode from "vscode";
 import { MessageManager, MESSAGE_DISPLAY_DELAY_MS } from "../../message";
