@@ -283,7 +283,7 @@ function resolveCommentSyntax(langId: string): CommentSyntax | undefined {
   const userSyntax = Configuration.instance.commentSyntax;
   const userEntry = userSyntax[langId];
   if (userEntry != null) {
-    return normalizeCommentSyntax(userEntry as string | { start: string; end: string });
+    return normalizeCommentSyntax(userEntry);
   }
   return DEFAULT_COMMENT_SYNTAX[langId];
 }
