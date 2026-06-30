@@ -166,6 +166,35 @@ suite("findPreviousWordStart with snake_case", () => {
   // See the existing camelCase tests for well-defined subword behavior.
 });
 
+suite("findNextWordEnd cross-line", () => {
+  test("crosses trailing whitespace before a newline to the next word (ISSUE-3)", async () => {
+    // Each line has a trailing space before the newline; word-end finding must
+    // skip past it to the next line's word instead of stalling at end of line.
+    const doc = await vscode.workspace.openTextDocument({
+      content: "aaa \nbbb \nccc",
+      language: "text",
+    });
+    const classifier = new WordCharacterClassifier("");
+    assert.deepStrictEqual(listAllNextWordEndPositions(doc, classifier, false), [
+      new Position(0, 3), // aaa
+      new Position(1, 3), // bbb (crossed trailing space + newline)
+      new Position(2, 3), // ccc (crossed trailing space + newline)
+    ]);
+  });
+
+  test("crosses blank/whitespace-only lines to the next word", async () => {
+    const doc = await vscode.workspace.openTextDocument({
+      content: "aaa \n  \n\nbbb",
+      language: "text",
+    });
+    const classifier = new WordCharacterClassifier("");
+    assert.deepStrictEqual(listAllNextWordEndPositions(doc, classifier, false), [
+      new Position(0, 3), // aaa
+      new Position(3, 3), // bbb (skipped the whitespace-only and empty lines)
+    ]);
+  });
+});
+
 suite("findNextWordEnd edge cases", () => {
   test("all uppercase word", async () => {
     // "getURLParser HTMLElement"

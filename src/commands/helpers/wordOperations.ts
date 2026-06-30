@@ -229,6 +229,21 @@ function findNextWordEndInternal(
     new Position(lineNumber, character),
   );
 
+  // Emacs forward-word crosses trailing whitespace and (blank) line breaks to
+  // reach the next word, rather than stopping at end of line. When the rest of
+  // the current line holds no word (e.g. the cursor sits in the trailing
+  // whitespace before a newline), advance to the next line(s) until a word is
+  // found. Without this, repeated word operations stall on such lines (ISSUE-3).
+  while (allowCrossLineWordNavigation && nextWordOnLine === null && lineNumber < doc.lineCount - 1) {
+    lineNumber = lineNumber + 1;
+    character = 0;
+    nextWordOnLine = findNextWordOnLine(
+      doc.lineAt(lineNumber).text,
+      wordSeparators,
+      new Position(lineNumber, character),
+    );
+  }
+
   // Emacs-like behavior that does not stop word search at line breaks.
   if (
     allowCrossLineWordNavigation &&

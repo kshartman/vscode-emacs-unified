@@ -34,15 +34,15 @@ suite("transformToUppercase", () => {
         { cursorAt: new Position(2, 3), text: "AAA\nBBB\nCCC" },
       ],
     },
-    // ISSUE-3: case conversion fails with trailing whitespace
-    // {
-    //     initialText: "aaa \nbbb \nccc",
-    //     expectedResults: [
-    //         { cursorAt: new Position(0, 3), text: "AAA\nbbb\nccc"},
-    //         { cursorAt: new Position(1, 3), text: "AAA\nBBB\nccc"},
-    //         { cursorAt: new Position(2, 3), text: "AAA\nBBB\nCCC"},
-    //     ],
-    // },
+    // ISSUE-3: case conversion with trailing whitespace before newline
+    {
+      initialText: "aaa \nbbb \nccc",
+      expectedResults: [
+        { cursorAt: new Position(0, 3), text: "AAA \nbbb \nccc" },
+        { cursorAt: new Position(1, 3), text: "AAA \nBBB \nccc" },
+        { cursorAt: new Position(2, 3), text: "AAA \nBBB \nCCC" },
+      ],
+    },
   ];
 
   testCases.forEach(({ initialText, expectedResults }) => {
@@ -97,15 +97,15 @@ suite("transformToLowercase", () => {
         { cursorAt: new Position(2, 3), text: "aaa\nbbb\nccc" },
       ],
     },
-    // ISSUE-3: case conversion fails with trailing whitespace
-    // {
-    //     initialText: "AAA \nBBB \nCCC",
-    //     expectedResults: [
-    //         { cursorAt: new Position(0, 3), text: "aaa\nBBB\nCCC"},
-    //         { cursorAt: new Position(1, 3), text: "aaa\nbbb\nCCC"},
-    //         { cursorAt: new Position(2, 3), text: "aaa\nbbb\nccc"},
-    //     ],
-    // },
+    // ISSUE-3: case conversion with trailing whitespace before newline
+    {
+      initialText: "AAA \nBBB \nCCC",
+      expectedResults: [
+        { cursorAt: new Position(0, 3), text: "aaa \nBBB \nCCC" },
+        { cursorAt: new Position(1, 3), text: "aaa \nbbb \nCCC" },
+        { cursorAt: new Position(2, 3), text: "aaa \nbbb \nccc" },
+      ],
+    },
   ];
 
   testCases.forEach(({ initialText, expectedResults }) => {
