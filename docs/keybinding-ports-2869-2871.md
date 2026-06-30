@@ -16,12 +16,9 @@ Never edit package.json keybindings by hand. See CONTRIBUTING.md.
 
 - [ ] `git pull` (or clone) — brings everything at/after v1.3.0.
 - [ ] `npm install`
-- [ ] (Optional, for reference diffs) add the upstream remote — it is **local config**,
-      not part of a clone:
-      `     git remote add upstream-whitphx https://github.com/whitphx/vscode-emacs-mcx.git
-    git fetch upstream-whitphx
-    `
-      Reference commits: **#2869 = `ed5936c`**, **#2871 = `615d7a6`**.
+- [ ] (Optional, for reference diffs) add the upstream remote — it is **local config**, not part of a clone:
+      `git remote add upstream-whitphx https://github.com/whitphx/vscode-emacs-mcx.git` then
+      `git fetch upstream-whitphx`. Reference commits: **#2869 = `ed5936c`**, **#2871 = `615d7a6`**.
 - [ ] Work on an `ai/keybinding-ports` (or feature) branch, not directly on `master`.
 
 ---
