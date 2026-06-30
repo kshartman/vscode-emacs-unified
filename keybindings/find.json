@@ -123,8 +123,9 @@
       "ctrl+h",
       "alt+d",
       "ctrl+k",
-      "ctrl+w",
-      "alt+w",
+      // ctrl+w and alt+w are intentionally NOT unbound here so the clipboard cut/copy
+      // bindings in move-edit.json can fire in the find/replace widget on Windows.
+      // See: https://github.com/whitphx/vscode-emacs-mcx/issues/2824 (upstream #2869)
       "alt+y",
       "ctrl+m",
       "ctrl+j",
