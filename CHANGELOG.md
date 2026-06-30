@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.3.1
+
+### Fixed
+
+- **Clipboard shortcuts in find/replace/search widgets and webviews** — `C-w` (cut), `M-w` (copy), and `C-y` (paste) fire again in the native find/replace/search input boxes, and `C-w`/`M-w` work in webview-backed views (Markdown preview, Simple Browser, etc.); also unblocked in the Windows find/replace widget. Editor kill-ring behavior is unchanged — the broadened bindings sit before the editor-specific ones so `killRegion`/`killRingSave`/`yank` still win in the editor (cherry-picked from upstream vscode-emacs-mcx #2869).
+- **`Tab` accepts Copilot Next Edit Suggestions** — excluded `inlineEditIsVisible` from the `tabToTabStop` when-clause, so when an inline edit suggestion (e.g. Copilot NES) is showing, `Tab` accepts it instead of running Emacs tab-to-tab-stop (cherry-picked from upstream #2871).
+
 ## 1.3.0
 
 ### Added
