@@ -22,10 +22,10 @@ Cherry-picked into 1.3.0:
 - [x] **#2819** yank-pop undo stability (`document.version` delta instead of a manual change counter)
 - [x] **#2816** subword-mode underscore handling (`_` treated as a separator via `[\W_]`)
 
-Merged upstream, **deferred** — keybinding `when`-clause changes that our automated suite can't verify behaviorally; need manual cross-platform testing (find/replace widgets, webviews, Windows, terminal) in a real VS Code:
+Merged upstream, **deferred** — keybinding `when`-clause changes that our automated suite can't verify behaviorally; need manual cross-platform testing (find/replace widgets, webviews, Windows, terminal) in a real VS Code. **Step-by-step work order (do these on Windows): [docs/keybinding-ports-2869-2871.md](docs/keybinding-ports-2869-2871.md).**
 
+- [ ] **#2871** exclude `inlineEditIsVisible` from `tabToTabStop` when clause (trivial — do first)
 - [ ] **#2869** clipboard shortcuts (C-w/M-w/C-y) in find/search widgets and webviews
-- [ ] **#2871** exclude `inlineEditIsVisible` from `tabToTabStop` when clause
 
 **Decided against** (don't revisit): **#2818** `cycle-spacing` and **#2804** `just-one-space` (both M-SPC) — we use `M-\` (delete-horizontal-space) for this, and `Alt+Space` is stolen by Windows.
 
