@@ -7,6 +7,8 @@ import { revealPrimaryActive } from "./helpers/reveal";
 import { waitForDocumentToSettle } from "../utils";
 import { Configuration } from "../configuration/configuration";
 import { Logger } from "../logger";
+import type { IEmacsController } from "../emulator";
+import { KillYanker } from "../kill-yank";
 
 const logger = Logger.get("EditCommands");
 
@@ -296,22 +298,35 @@ function resolveCommentSyntax(langId: string): CommentSyntax | undefined {
  *   4. Code line + comment     → move cursor into the existing comment
  *   5. Comment-only line       → realign comment to code indentation level
  *
- * TODO: C-u M-; (comment-kill) — kill comment on line to kill ring (ISSUE-5)
+ * With a prefix argument (C-u M-;) it instead runs `comment-kill`: the comment
+ * on each cursor's line is killed (removed and saved to the kill ring).
  */
 export class CommentDwim extends EmacsCommand {
   public readonly id = "commentDwim";
 
+  private killYanker: KillYanker;
+
+  public constructor(emacsController: IEmacsController, killYanker: KillYanker) {
+    super(emacsController);
+    this.killYanker = killYanker;
+  }
+
   public async run(textEditor: TextEditor, isInMarkMode: boolean, prefixArgument: number | undefined): Promise<void> {
     this.emacsController.exitMarkMode();
+
+    const langId = textEditor.document.languageId;
+    const syntax = resolveCommentSyntax(langId);
+
+    // C-u M-; → comment-kill: kill the comment on each cursor's line.
+    if (prefixArgument != null && syntax) {
+      return this.killComments(textEditor, syntax);
+    }
 
     // Case 1: Region active → toggle comment
     if (textEditor.selections.some((s) => !s.isEmpty)) {
       await vscode.commands.executeCommand("editor.action.commentLine");
       return;
     }
-
-    const langId = textEditor.document.languageId;
-    const syntax = resolveCommentSyntax(langId);
 
     // Unknown language → fall back to VS Code's built-in toggle
     if (!syntax) {
@@ -369,6 +384,35 @@ export class CommentDwim extends EmacsCommand {
       }
       return sel;
     });
+  }
+
+  // comment-kill (C-u M-;): remove the comment on each cursor's line and save
+  // it to the kill ring.
+  private async killComments(textEditor: TextEditor, syntax: CommentSyntax): Promise<void> {
+    const doc = textEditor.document;
+    const marker = syntax.start;
+    const tabSize = Number(textEditor.options.tabSize) || 4;
+
+    const ranges: Range[] = [];
+    for (const sel of textEditor.selections) {
+      const line = doc.lineAt(sel.active.line);
+      const info = categorizeLine(line, marker, doc, tabSize);
+      if (info.type === "code-and-comment") {
+        // Kill from the end of the code (dropping the separating whitespace) to EOL.
+        const codeEnd = line.text.substring(0, info.commentPos).trimEnd().length;
+        ranges.push(new Range(line.lineNumber, codeEnd, line.lineNumber, line.text.length));
+      } else if (info.type === "comment-only") {
+        // Kill the comment, preserving the line's leading indentation.
+        ranges.push(new Range(line.lineNumber, info.commentPos, line.lineNumber, line.text.length));
+      }
+    }
+
+    if (ranges.length === 0) {
+      return;
+    }
+
+    await this.killYanker.kill(ranges, false);
+    revealPrimaryActive(textEditor);
   }
 }
 
